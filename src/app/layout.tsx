@@ -6,6 +6,13 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
+export const metadata = {
+    title: {
+        template: '%s | SBF Fasilkom 2026',
+        default: 'SBF Fasilkom 2026',
+    },
+};
+
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
