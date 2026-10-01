@@ -6,6 +6,76 @@ html {
   scrollbar-gutter: stable;
 }
 
+#nd-nav :is(nav, [role='navigation']) {
+  background-color: #091723;
+  color: white;
+}
+
+#nd-nav :is(nav, [role='navigation']) a {
+  color: inherit;
+}
+
+#nd-nav ul:has(> li a[href='/docs']) {
+  order: -1;
+}
+
+body:has(.home-landing) #nd-nav :is([data-search-full], [data-search]) {
+  display: none;
+}
+
+#nd-nav button[aria-label='Open Search'],
+#nd-nav :is([data-search-full], [aria-label='Open Search']) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#nd-nav button[aria-label='Open Search'] kbd,
+#nd-nav :is([data-search-full], [aria-label='Open Search']) kbd {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+#nd-sidebar {
+  background-color: #091723;
+}
+
+#nd-sidebar button[aria-label='Open Search'],
+#nd-sidebar :is([data-search-full], [aria-label='Open Search']) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#nd-sidebar button[aria-label='Open Search'] kbd,
+#nd-sidebar :is([data-search-full], [aria-label='Open Search']) kbd {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#nd-sidebar {
+  background-color: #091723;
+  color: #ffffff;
+}
+
+#nd-sidebar a,
+#nd-sidebar button {
+  color: #ffffff;
+}
+
+#nd-sidebar :is(.text-fd-muted-foreground, [data-muted]) {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#nd-sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
