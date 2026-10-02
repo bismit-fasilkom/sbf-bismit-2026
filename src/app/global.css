@@ -2,10 +2,6 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
-html {
-  scrollbar-gutter: stable;
-}
-
 :where(a, button, [role='button'], [role='link'], input[type='button'], input[type='submit'], input[type='reset'], summary, label[for], select, [onclick], [data-clickable='true']) {
   cursor: pointer;
 }
