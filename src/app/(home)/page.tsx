@@ -1,4 +1,5 @@
 import { LandingSearch } from '@/components/landing-search';
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -17,6 +18,11 @@ export default function HomePage() {
         </h1>
 
         <LandingSearch />
+          <Link className="mt-6 inline-block rounded-lg bg-[#276eb0] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#276eb0]/90
+          focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                href="/docs">
+              Open Docs
+          </Link>
       </div>
       <footer className="absolute inset-x-0 bottom-0 border-t border-[#d9e3eb] px-6 py-4 text-center text-xs text-[#627a8e] dark:border-white/10 dark:text-[#8fa5b7]">
         Biro Bisnis dan Kemitraan BEM Fasilkom UI © 2026 - All Rights Reserved.
