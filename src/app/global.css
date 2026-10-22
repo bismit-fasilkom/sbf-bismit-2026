@@ -23,6 +23,12 @@ body:has(.home-landing) #nd-nav :is([data-search-full], [data-search]) {
   display: none;
 }
 
+#nd-nav button[aria-label*='Toggle Theme'],
+#nd-nav [data-theme-toggle] {
+  margin-top: 0.75rem !important;
+  align-self: flex-start !important;
+}
+
 #nd-nav button[aria-label='Open Search'],
 #nd-nav :is([data-search-full], [aria-label='Open Search']) {
   background-color: rgba(255, 255, 255, 0.05) !important;

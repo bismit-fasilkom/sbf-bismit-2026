@@ -16,7 +16,7 @@ export function baseOptions(): BaseLayoutProps {
             {
                 type: 'menu',
                 text: 'Resources',
-                on: 'nav',
+                on: 'all',
                 secondary: true,
                 items: [
                     {

@@ -12,7 +12,7 @@ export default function HomePage() {
         <p className="mb-6 flex items-center justify-center gap-2.5 font-mono text-[0.68rem] font-semibold tracking-[0.14em] text-[#536d83] dark:text-[#a5bbcd]">
           SBF BISMIT 2026
         </p>
-        <h1 className="m-0 text-[clamp(2.8rem,7vw,6rem)] leading-[1.02] font-semibold tracking-[-0.075em]">
+        <h1 className="m-0 text-[clamp(2rem,7vw,6rem)] leading-[1.02] font-semibold tracking-[-0.075em]">
           Dokumentasi Materi<br />
           <i className="font-serif font-normal text-[#276eb0] dark:text-[#80c2ff]">Software Engineering</i>
         </h1>
@@ -24,8 +24,13 @@ export default function HomePage() {
               Open Docs
           </Link>
       </div>
-      <footer className="absolute inset-x-0 bottom-0 border-t border-[#d9e3eb] px-6 py-4 text-center text-xs text-[#627a8e] dark:border-white/10 dark:text-[#8fa5b7]">
-        Biro Bisnis dan Kemitraan BEM Fasilkom UI © 2026 - All Rights Reserved.
+      <footer className="absolute flex justify-center md:justify-between inset-x-0 bottom-0 border-t border-[#d9e3eb] px-6 py-4 text-center text-xs text-[#627a8e] dark:border-white/10 dark:text-[#8fa5b7]">
+          <div className="">
+              Biro Bisnis dan Kemitraan BEM Fasilkom UI © 2026 - All Rights Reserved.
+          </div>
+          <div className="hidden md:block">
+              Built with Next.js, Fumadocs, and Tailwind CSS
+          </div>
       </footer>
     </main>
   );
