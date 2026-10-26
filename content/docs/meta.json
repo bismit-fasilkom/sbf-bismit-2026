@@ -2,8 +2,8 @@
   "title": "Internal Class Materials ",
   "pages": [
     "introduction-to-software-engineering",
-    "git-github-everything-about-collaboration",
     "introduction-to-html-and-css",
-    "javascript-fundamentals"
+    "javascript-fundamentals",
+    "git-github-everything-about-collaboration"
   ]
 }
