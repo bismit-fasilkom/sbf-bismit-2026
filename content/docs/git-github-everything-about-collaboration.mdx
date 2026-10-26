@@ -1,0 +1,1014 @@
+---
+title: Git, GitHub, and Everything Around It
+description: Ini Deskripsi
+---
+
+# Pengenalan Git & GitHub
+
+Pernahkah kamu mengerjakan tugas nih, terus simpen nama filenya kayak gini:
+- `Tugas_Web.zip`
+- `Tugas_Web_Revisi.zip`
+- `Tugas_Web_Revisi_Final.zip`
+- `Tugas_Web_Revisi_Final_Fix_Banget_Bismillah.zip`
+
+Terus nanti pas kamu kirim ke temen kamu, temen kamu bikin revisian juga dari tugasnya, terus dia buat lagi file kayak
+- `Tugas_Web_Revisi_Final_Fix_Banget_Bismillah_Janji.zip`
+
+Belum kalo kerjaannya banyak, dan dia ngerjainnya lama banget bagian dia, padahal banyak tugas yang bisa dikerjain secara paralel.
+
+Cara seperti itu sangat berisiko dan membingungkan, apalagi jika kamu mengerjakan satu proyek bersama beberapa teman sekaligus. Di dunia **Software Engineering**, masalah ini diselesaikan menggunakan **Git**.
+
+---
+
+## 1. Apa itu Git & Kenapa Kita Membutuhkannya?
+
+### Apa itu Git?
+**Git** adalah sebuah **Version Control System (VCS)** terdistribusi. Sederhananya, bayangkan Git sebagai **"mesin waktu"** atau fitur ***Save Checkpoint* di dalam game** untuk kode programmu. Git mencatat setiap perubahan yang kamu lakukan pada file dari waktu ke waktu.
+
+### Kenapa Harus Pakai Git?
+1. **Bisa Kembali ke Masa Lalu (Rollback):** Jika kamu menulis kode baru dan tiba-tiba aplikasinya *error* total, kamu bisa kembali ke titik *checkpoint* sebelumnya saat aplikasi masih berjalan normal.
+2. **Kolaborasi Tanpa Bentrok:** Banyak *developer* bisa mengerjakan proyek yang sama secara bersamaan tanpa takut menimpa (meng-*overwrite*) pekerjaan teman satu timnya.
+3. **Riwayat yang Jelas (Track Record):** Git mencatat **siapa** yang mengubah kode, **kapan** diubah, dan **baris mana** yang berubah.
+4. **Aman untuk Eksperimen:** Kamu bisa mencoba membuat fitur baru di ruang terpisah (*branch*) tanpa merusak kode utama yang sudah berjalan.
+5. **Portofolio:** Profil GitHub-mu bisa jadi "CV" yang dilihat oleh rekruter atau dosen.
+
+---
+
+## 2. Sekilas Sejarah: Siapa dan Kenapa Git Dibuat?
+
+Git diciptakan oleh **Linus Torvalds** pada tahun **2005**—sosok yang sama yang menciptakan sistem operasi **Linux**.
+
+**Kenapa Git dibuat?**
+Awalnya, tim pengembang kernel Linux di seluruh dunia menggunakan software berbayar (namanya *BitKeeper*) untuk mengelola jutaan baris kode Linux. Namun pada tahun 2005, hubungan kerja sama antara komunitas Linux dan perusahaan pembuat *BitKeeper* berakhir, sehingga akses gratis mereka dicabut.
+
+Karena tidak ada aplikasi *Version Control* lain pada saat itu yang cukup cepat dan kuat untuk menangani proyek sebesar Linux, Linus Torvalds memutuskan untuk membuat sistemnya sendiri. Hanya dalam waktu sekitar **dua minggu**, lahirlah **Git**—yang dirancang agar super cepat, aman, dan gratis (*open-source*).
+
+Tiga tahun kemudian (**2008**), **GitHub** diluncurkan sebagai tempat menyimpan repositori Git secara online, dan pada **2018** GitHub diakuisisi oleh **Microsoft**.
+
+---
+
+## 3. Jangan Tertukar: Git vs GitHub vs Git Bash
+
+Banyak pemula mengira Git dan GitHub adalah hal yang sama. Padahal ketiganya memiliki peran yang sangat berbeda:
+
+| Istilah | Perumpamaan | Penjelasan |
+| :--- | :--- | :--- |
+| **Git** | Mesin Pencatat (Lokal) | *Software* atau alat utama yang terinstal di laptopmu untuk mencatat riwayat perubahan kode. Bisa berjalan **tanpa internet**. |
+| **GitHub** | Rumah / Cloud Storage (Online) | Website atau layanan *cloud* untuk menyimpan proyek Git secara online agar bisa diakses dan dikerjakan bersama tim (alternatif lainnya: GitLab, Bitbucket). |
+| **Git Bash** | Papan Ketik / Terminal (Khusus Windows) | Aplikasi terminal di Windows yang memungkinkan pengguna Windows menjalankan perintah Git dan perintah bergaya Linux/Unix. |
+| **GitHub CLI (`gh`)** | Remote Control GitHub | Alat terminal resmi dari GitHub untuk login, membuat repo, membuat Pull Request, dll **tanpa membuka browser**. |
+| **GitHub Desktop** | Versi "klik-klik" | Aplikasi GUI untuk menjalankan Git tanpa mengetik perintah. Cocok untuk yang belum nyaman dengan terminal. |
+
+> **Singkatnya:** Jika **Git** adalah kameranya, maka **GitHub** adalah Instagram tempat kamu mengunggah hasil fotonya, dan **Git Bash** adalah tombol untuk mengoperasikan kameranya di Windows.
+
+---
+
+## 4. Istilah-Istilah yang Wajib Kamu Kenal
+
+Sebelum lanjut, biar nggak bingung di tengah jalan:
+
+| Istilah | Arti |
+| :--- | :--- |
+| **Repository (Repo)** | Folder proyek yang dilacak oleh Git, lengkap dengan seluruh riwayatnya. |
+| **Commit** | Satu *checkpoint* / titik simpan berisi perubahan + pesan. |
+| **Branch** | Cabang/jalur kerja terpisah dari kode utama. |
+| **`main` / `master`** | Nama branch utama (GitHub sekarang memakai `main` sebagai default). |
+| **Remote** | Repo yang ada di server (misalnya GitHub). |
+| **`origin`** | Nama panggilan default untuk remote utama. |
+| **`upstream`** | Nama panggilan untuk repo asli saat kamu melakukan *fork*. |
+| **Clone** | Menyalin repo dari remote ke laptop. |
+| **Fork** | Menyalin repo milik orang lain ke **akun GitHub-mu** sendiri. |
+| **Pull Request (PR)** | Permintaan agar perubahan di branch-mu digabung ke branch lain. |
+| **HEAD** | Penunjuk posisimu saat ini (biasanya commit terakhir di branch aktif). |
+| **Merge** | Menggabungkan dua branch. |
+| **Conflict** | Bentrok perubahan yang tidak bisa digabung otomatis oleh Git. |
+
+---
+
+## 5. Instalasi & Konfigurasi Awal Git
+
+### A. Cara Install Git
+1. **Windows:**
+   - Unduh installer di [git-scm.com/downloads](https://git-scm.com/downloads).
+   - Jalankan installer dan klik **Next** terus hingga selesai (pengaturan *default* sudah sangat cukup untuk pemula).
+   - Setelah selesai, aplikasi **Git Bash** akan otomatis terinstal di laptopmu.
+   - Alternatif lewat terminal (PowerShell):
+     ```powershell
+     winget install --id Git.Git -e
+     ```
+2. **macOS:**
+   - Buka Terminal, lalu jalankan perintah `git --version` (Mac akan otomatis menawarkan instalasi *Xcode Command Line Tools*), atau install menggunakan Homebrew:
+     ```bash
+     brew install git
+     ```
+3. **Linux (Ubuntu/Debian):**
+   - Buka Terminal dan jalankan:
+     ```bash
+     sudo apt update && sudo apt install git
+     ```
+
+### B. Cek Instalasi & Setup Identitas
+Buka **Terminal** (Mac/Linux) atau **Git Bash** (Windows), lalu pastikan Git sudah terinstal:
+
+```bash
+git --version
+```
+
+Sebelum mulai menggunakan Git, kita **wajib** mengenalkan nama dan email kita terlebih dahulu (cukup dilakukan **sekali saja** saat pertama kali install). Samakan email ini dengan email akun GitHub kamu agar commit-mu tercatat atas nama akunmu (muncul kotak hijau di profil):
+
+```bash
+git config --global user.name "Nama Lengkap Kamu"
+git config --global user.email "emailkamu@example.com"
+```
+
+### C. Konfigurasi Tambahan yang Direkomendasikan
+
+```bash
+# Jadikan "main" sebagai nama branch default saat git init
+git config --global init.defaultBranch main
+
+# Jadikan VS Code sebagai editor default Git (misal saat menulis pesan commit panjang)
+git config --global core.editor "code --wait"
+
+# Atur perilaku git pull agar menggabungkan dengan merge (menghilangkan warning)
+git config --global pull.rebase false
+```
+
+**Khusus pengguna Windows** (supaya tidak ribut soal format akhir baris/ *line ending* dengan teman yang pakai Mac/Linux):
+```bash
+git config --global core.autocrlf true
+```
+
+Untuk mengecek apakah sudah tersimpan, jalankan:
+```bash
+git config --list
+
+# atau cek satu per satu
+git config user.name
+git config user.email
+```
+
+> **Tips:** `--global` berarti berlaku untuk semua proyek di laptopmu. Kalau kamu ingin identitas berbeda untuk satu proyek saja (misal email kantor), jalankan perintah yang sama **tanpa** `--global` di dalam folder proyek tersebut.
+
+---
+
+## 6. Membuat Akun GitHub
+
+1. Buka [github.com](https://github.com) lalu klik **Sign up**.
+2. Masukkan email, password, dan **username** (pilih yang profesional ya, karena ini akan jadi URL portofoliomu: `github.com/username-kamu`).
+3. Verifikasi email.
+4. **Sangat disarankan:** Aktifkan **Two-Factor Authentication (2FA)** di **Settings → Password and authentication**. GitHub sekarang mewajibkan 2FA untuk banyak akun.
+5. **Untuk mahasiswa:** Daftar **GitHub Student Developer Pack** di [education.github.com/pack](https://education.github.com/pack) untuk mendapat GitHub Copilot, domain gratis, kredit cloud, dan banyak tools premium lainnya secara gratis.
+
+---
+
+## 7. Menghubungkan Laptop / VS Code dengan GitHub (Autentikasi)
+
+Sejak 2021, GitHub **tidak lagi menerima password akun** saat kamu melakukan `git push` lewat terminal. Kamu harus memakai salah satu cara autentikasi di bawah. Pilih **satu** saja yang paling nyaman.
+
+| Cara | Tingkat Kesulitan | Cocok Untuk |
+| :--- | :--- | :--- |
+| A. Login lewat VS Code | ⭐ Paling mudah | Pemula yang kerja di VS Code |
+| B. GitHub CLI (`gh auth login`) | ⭐⭐ Mudah | Yang suka terminal |
+| C. Git Credential Manager (HTTPS) | ⭐ Otomatis | Pengguna Windows (bawaan Git) |
+| D. Personal Access Token (PAT) | ⭐⭐ Sedang | Server / komputer tanpa browser |
+| E. SSH Key | ⭐⭐⭐ Agak teknis | Jangka panjang, paling "pro" |
+
+### A. Login Lewat VS Code (GUI)
+
+1. Buka aplikasi **VS Code**.
+2. Klik ikon **Accounts** (ikon profil orang) di pojok kiri bawah, tepat di atas ikon *Settings* (gerigi).
+3. Pilih **"Sign in with GitHub to use Git..."** (atau *Backup and Sync Settings* / *GitHub Copilot*, tergantung versi).
+4. Browser akan terbuka. Login ke akun GitHub kamu dan klik **Authorize Visual Studio Code**.
+5. Jika muncul pop-up untuk kembali ke VS Code, klik **Open Visual Studio Code**.
+6. Selesai! Sekarang fitur *Source Control* dan terminal di dalam VS Code sudah terhubung dengan akun GitHub kamu.
+
+> **Catatan:** Kalau tombol login tidak muncul di ikon Accounts, kamu juga bisa memicunya otomatis: lakukan `git push` / *Publish Branch* pertama kali dari VS Code, nanti VS Code akan meminta izin login ke GitHub.
+
+### B. Login Lewat Terminal dengan GitHub CLI (`gh`)
+
+GitHub CLI adalah cara paling praktis kalau kamu suka terminal. Sekali login, Git otomatis ikut terautentikasi.
+
+**1. Install GitHub CLI**
+```bash
+# Windows (PowerShell)
+winget install --id GitHub.cli
+
+# macOS
+brew install gh
+
+# Ubuntu/Debian
+sudo apt install gh
+```
+> Setelah install di Windows, **tutup dan buka ulang** terminal / VS Code agar perintah `gh` dikenali.
+
+**2. Login**
+```bash
+gh auth login
+```
+Lalu jawab pertanyaan yang muncul:
+```text
+? Where do you use GitHub?                       → GitHub.com
+? What is your preferred protocol for Git operations? → HTTPS
+? Authenticate Git with your GitHub credentials? → Yes
+? How would you like to authenticate GitHub CLI? → Login with a web browser
+```
+Terminal akan menampilkan **kode 8 digit** (contoh: `ABCD-1234`). Tekan Enter, browser akan terbuka, masukkan kode tersebut, lalu klik **Authorize**.
+
+**3. Cek status login**
+```bash
+gh auth status
+```
+
+### C. Git Credential Manager (Otomatis di Windows)
+
+Kalau kamu install Git for Windows dengan pengaturan default, **Git Credential Manager (GCM)** sudah ikut terinstal. Cara kerjanya:
+
+1. Jalankan `git push` atau `git clone` repo private untuk pertama kalinya.
+2. Akan muncul jendela pop-up **"Connect to GitHub"** → pilih **Sign in with your browser**.
+3. Login dan authorize. Selesai, kredensialmu tersimpan aman di *Windows Credential Manager* dan tidak akan ditanya lagi.
+
+> **Salah akun / ingin ganti akun?** Buka **Control Panel → Credential Manager → Windows Credentials**, cari entri `git:https://github.com`, lalu **Remove**. Saat push berikutnya kamu akan diminta login ulang.
+
+### D. Personal Access Token (PAT)
+
+Token adalah semacam "password khusus" untuk Git. Cocok kalau kamu kerja di komputer yang tidak bisa membuka browser (misal server/VPS).
+
+1. Buka GitHub → **Settings → Developer settings → Personal access tokens → Tokens (classic)** (atau *Fine-grained tokens*).
+2. Klik **Generate new token**, beri nama, atur masa berlaku (*expiration*), dan centang scope **`repo`**.
+3. Klik **Generate token** lalu **salin tokennya sekarang** (token hanya ditampilkan sekali!).
+4. Saat `git push` meminta *username* dan *password*:
+   - **Username:** username GitHub-mu
+   - **Password:** *paste* token tadi (bukan password akun!)
+
+> ⚠️ **Perlakukan token seperti password.** Jangan pernah meng-*commit* token ke repo atau membagikannya di grup chat.
+
+### E. SSH Key
+
+SSH memakai pasangan kunci (**public key** dan **private key**). Public key kamu daftarkan ke GitHub, private key disimpan di laptop. Setelah di-setup, kamu tidak akan pernah ditanya login lagi.
+
+**1. Cek apakah sudah punya SSH key**
+```bash
+ls ~/.ssh
+```
+Jika ada file `id_ed25519.pub`, kamu sudah punya key dan bisa lompat ke langkah 3.
+
+**2. Buat SSH key baru** (jalankan di Git Bash / Terminal)
+```bash
+ssh-keygen -t ed25519 -C "emailkamu@example.com"
+```
+Tekan **Enter** untuk menerima lokasi default. *Passphrase* boleh dikosongkan (Enter saja) atau diisi untuk keamanan ekstra.
+
+**3. Salin public key**
+```bash
+# Windows (Git Bash)
+cat ~/.ssh/id_ed25519.pub | clip
+
+# macOS
+pbcopy < ~/.ssh/id_ed25519.pub
+
+# Linux (atau tampilkan lalu copy manual)
+cat ~/.ssh/id_ed25519.pub
+```
+
+**4. Daftarkan ke GitHub**
+Buka GitHub → **Settings → SSH and GPG keys → New SSH key** → beri judul (misal "Laptop ASUS") → *paste* key → **Add SSH key**.
+
+**5. Tes koneksi**
+```bash
+ssh -T git@github.com
+```
+Jika muncul pertanyaan `Are you sure you want to continue connecting?`, ketik `yes`. Berhasil jika muncul:
+```text
+Hi username-kamu! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+**6. Gunakan URL SSH**
+Saat clone atau menambah remote, pakai URL yang berawalan `git@github.com:` (bukan `https://`):
+```bash
+git clone git@github.com:username-kamu/nama-repo.git
+```
+> Repo lama yang masih memakai HTTPS bisa diubah dengan:
+> `git remote set-url origin git@github.com:username-kamu/nama-repo.git`
+
+---
+
+## 8. Konsep Penting: 3 Area di Dalam Git
+
+Sebelum menghafal perintah Git, pahami dulu bagaimana alur perpindahan file di dalam Git. Git membagi ruang kerjamu menjadi **3 area lokal** ditambah **1 area online (Remote)**:
+
+```text
+[1. Working Directory]  --(git add)-->  [2. Staging Area]  --(git commit)-->  [3. Local Repo]  --(git push)-->  [4. Remote Repo (GitHub)]
+          ^                                                                                                            |
+          |------------------------------------------(git pull / git clone)--------------------------------------------|
+```
+
+1. **Working Directory:** Folder proyek di laptopmu tempat kamu sedang mengetik, mengedit, atau menghapus file.
+2. **Staging Area (Ruang Tunggu):** Tempat kamu memilih file mana saja yang sudah siap untuk disimpan ke dalam *checkpoint*.
+3. **Local Repository:** Riwayat *checkpoint* yang sudah resmi tersimpan di dalam laptopmu (disimpan di folder tersembunyi `.git`).
+4. **Remote Repository (GitHub):** Tempat penyimpanan online agar kodenya bisa dilihat dan diambil oleh teman satu tim.
+
+> **Analogi:** Bayangkan kamu mau kirim paket. *Working Directory* = barang-barang di kamarmu, *Staging Area* = kardus yang sedang kamu isi, *Commit* = kardus yang sudah dilakban dan diberi label, *Push* = kardus dikirim lewat kurir ke gudang (GitHub).
+
+> ⚠️ **Jangan pernah menghapus folder `.git`!** Folder ini tersembunyi dan berisi seluruh riwayat proyekmu. Kalau terhapus, folder itu kembali jadi folder biasa tanpa riwayat.
+
+---
+
+## 9. Perintah Dasar Git (Siklus Kerja Sehari-hari)
+
+### 1. Memulai Proyek: `git clone` & `git init`
+Ada dua cara untuk memulai proyek menggunakan Git:
+
+- **Mengambil proyek yang sudah ada di internet (`git clone`):**
+  Digunakan untuk mengunduh repositori dari GitHub ke laptopmu.
+  ```bash
+  # Ganti URL di bawah dengan link repositori yang ingin di-clone
+  git clone https://github.com/ErzaProxy/belajar-git.git
+  ```
+  Setelah selesai di-clone, jangan lupa masuk ke foldernya:
+  ```bash
+  cd nama-repo-materi
+  ```
+  > **Tips:** Link clone bisa didapat dari tombol hijau **`<> Code`** di halaman repo GitHub.
+
+- **Membuat proyek baru dari nol di laptop (`git init`):**
+  Jika kamu baru membuat folder kosong di laptop dan ingin mengaktifkan Git di dalamnya:
+  ```bash
+  git init
+  ```
+  Cara menghubungkan proyek hasil `git init` ke GitHub dijelaskan lengkap di **Bagian 10**.
+
+### 2. Mengecek Kondisi File: `git status`
+Perintah yang paling sering digunakan! Gunanya untuk melihat file apa saja yang baru diubah, belum masuk *Staging Area*, atau siap di-*commit*.
+```bash
+git status
+```
+Arti status yang biasa muncul:
+- **Untracked files** (merah): file baru yang belum pernah dilacak Git.
+- **Changes not staged for commit** (merah): file lama yang diubah tapi belum di-`add`.
+- **Changes to be committed** (hijau): file yang sudah di *Staging Area* dan siap di-*commit*.
+
+### 3. Melihat Detail Perubahan: `git diff`
+Melihat baris apa saja yang kamu ubah sebelum di-commit.
+```bash
+# Perubahan yang BELUM di-add
+git diff
+
+# Perubahan yang SUDAH di-add (ada di staging)
+git diff --staged
+```
+
+### 4. Memasukkan File ke Ruang Tunggu: `git add`
+Memindahkan file yang sudah kamu ubah dari *Working Directory* ke *Staging Area*.
+```bash
+# Menambahkan satu file spesifik
+git add index.html
+
+# Menambahkan beberapa file sekaligus
+git add index.html style.css
+
+# Menambahkan SEMUA file yang berubah sekaligus (paling sering dipakai)
+git add .
+```
+
+### 5. Menyimpan Checkpoint: `git commit`
+Menyimpan file yang ada di *Staging Area* ke dalam *Local Repository* beserta pesan catatannya. Buatlah pesan yang jelas agar timmu tahu apa yang kamu kerjakan.
+```bash
+git commit -m "Menambahkan halaman login dan validasi form"
+```
+> Cara menulis pesan commit yang baik dibahas di **Bagian 13**.
+
+### 6. Mengirim Kode ke GitHub: `git push`
+Mengunggah *commit* yang ada di laptopmu (*Local Repo*) ke GitHub (*Remote Repo*).
+```bash
+# Format: git push origin nama-branch
+git push origin main
+
+# Push pertama kali untuk branch baru: tambahkan -u (set upstream)
+git push -u origin main
+# Setelah itu, cukup ketik:
+git push
+```
+
+### 7. Mengambil Update Terbaru dari Tim: `git pull` & `git fetch`
+Jika teman satu timmu baru saja mengunggah kode baru ke GitHub, gunakan perintah ini untuk mengunduh dan menggabungkan perubahan tersebut ke laptopmu.
+```bash
+# Format: git pull origin nama-branch
+git pull origin main
+```
+
+Bedanya dengan `git fetch`:
+| Perintah | Yang Dilakukan |
+| :--- | :--- |
+| `git fetch` | **Hanya mengunduh** info perubahan terbaru dari GitHub, **tanpa** mengubah file di laptopmu. Aman untuk "ngintip" dulu. |
+| `git pull` | `git fetch` + `git merge` sekaligus. Langsung menggabungkan perubahan ke branch-mu. |
+
+> **Kebiasaan baik:** Selalu `git pull` **sebelum mulai kerja** dan **sebelum push**, supaya kodemu selalu yang terbaru dan meminimalisir conflict.
+
+### 8. Melihat Riwayat Checkpoint: `git log`
+Untuk melihat daftar *commit* yang pernah dibuat beserta siapa pembuatnya dan kapan dibuatnya:
+```bash
+# Ringkas, satu baris per commit
+git log --oneline
+
+# Versi lengkap
+git log
+
+# Lihat dalam bentuk "pohon" beserta semua branch
+git log --oneline --graph --all
+
+# Lihat detail perubahan pada satu commit tertentu
+git show a1b2c3d
+```
+> Tekan `q` untuk keluar dari tampilan `git log`.
+
+### 9. Mengelola Remote: `git remote`
+```bash
+# Lihat remote yang terhubung
+git remote -v
+
+# Tambah remote baru
+git remote add origin https://github.com/username-kamu/nama-repo.git
+
+# Ganti URL remote
+git remote set-url origin https://github.com/username-kamu/repo-baru.git
+
+# Hapus remote
+git remote remove origin
+```
+
+---
+
+## 10. Membuat Repository Sendiri & Menghubungkannya ke GitHub
+
+Ini salah satu hal yang paling sering ditanyakan pemula: *"Aku udah punya folder proyek di laptop, gimana caranya biar masuk ke GitHub?"* Ada **3 cara**:
+
+### Cara 1: Buat Repo di GitHub Dulu, Lalu Clone (Paling Mudah)
+
+1. Login ke GitHub, klik tombol **`+`** di pojok kanan atas → **New repository**.
+2. Isi form:
+   - **Repository name:** misal `portfolio-web` (gunakan huruf kecil dan tanda `-`, tanpa spasi).
+   - **Description:** (opsional) penjelasan singkat proyek.
+   - **Public / Private:** *Public* bisa dilihat semua orang, *Private* hanya kamu dan orang yang kamu undang.
+   - ✅ Centang **Add a README file**.
+   - (Opsional) Pilih **.gitignore template** sesuai bahasa (misal `Node`, `Python`).
+   - (Opsional) Pilih **License** (misal `MIT`) jika proyek open-source.
+3. Klik **Create repository**.
+4. Klik tombol hijau **`<> Code`**, salin URL-nya, lalu di terminal:
+   ```bash
+   git clone https://github.com/username-kamu/portfolio-web.git
+   cd portfolio-web
+   ```
+5. Masukkan / buat file proyekmu di folder tersebut, lalu:
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git push
+   ```
+
+### Cara 2: Sudah Punya Folder di Laptop → Push ke Repo Kosong
+
+1. Di GitHub, buat **New repository**, tapi **JANGAN** centang README, .gitignore, maupun License (biarkan repo benar-benar kosong agar tidak bentrok).
+2. GitHub akan menampilkan halaman berisi petunjuk. Di terminal, masuk ke folder proyekmu lalu jalankan:
+   ```bash
+   # 1. Aktifkan Git di folder ini
+   git init
+
+   # 2. Masukkan semua file ke staging & buat commit pertama
+   git add .
+   git commit -m "Initial commit"
+
+   # 3. Pastikan nama branch-nya "main"
+   git branch -M main
+
+   # 4. Hubungkan folder ini ke repo GitHub
+   git remote add origin https://github.com/username-kamu/nama-repo.git
+
+   # 5. Upload untuk pertama kalinya
+   git push -u origin main
+   ```
+3. *Refresh* halaman GitHub—file proyekmu sudah muncul! 🎉
+
+> **Jangan lupa** buat file `.gitignore` **sebelum** `git add .` jika proyekmu punya folder seperti `node_modules/` atau file `.env` (lihat **Bagian 14**).
+
+### Cara 3: Langsung dari Terminal dengan GitHub CLI
+
+Tanpa buka browser sama sekali! (Pastikan sudah `gh auth login`.)
+```bash
+# Masuk ke folder proyek
+cd portfolio-web
+
+git init
+git add .
+git commit -m "Initial commit"
+
+# Buat repo di GitHub + hubungkan + push dalam satu perintah
+gh repo create portfolio-web --public --source=. --remote=origin --push
+```
+Ganti `--public` dengan `--private` kalau ingin repo privat.
+
+### Cara 4 (Bonus): Lewat VS Code — "Publish to GitHub"
+
+1. Buka folder proyekmu di VS Code.
+2. Klik ikon **Source Control** di sidebar kiri (ikon cabang, atau tekan `Ctrl + Shift + G`).
+3. Klik tombol **Publish to GitHub**.
+4. Pilih **Publish to GitHub private repository** atau **public repository**.
+5. Pilih file yang ingin di-upload, lalu klik **OK**. VS Code akan otomatis melakukan `init`, `commit`, membuat repo, dan `push`.
+
+### Mengundang Teman ke Repo (Collaborator)
+
+Agar teman bisa ikut `push` ke repo-mu:
+1. Buka repo di GitHub → **Settings → Collaborators** (atau *Collaborators and teams*).
+2. Klik **Add people**, ketik username / email temanmu.
+3. Temanmu akan menerima undangan via email dan harus menerimanya (*Accept invitation*).
+
+> Untuk proyek tim/organisasi kampus, kamu juga bisa membuat **GitHub Organization** (klik `+` → *New organization*, pilih paket *Free*) supaya semua repo tim terkumpul di satu tempat.
+
+---
+
+## 11. Menggunakan Git Lewat VS Code (Tanpa Mengetik Perintah)
+
+Semua perintah di atas juga bisa dilakukan dengan klik-klik di VS Code melalui panel **Source Control** (`Ctrl + Shift + G`):
+
+| Aksi di VS Code | Setara Dengan |
+| :--- | :--- |
+| Daftar file di bagian **Changes** | `git status` |
+| Klik file di daftar Changes | `git diff` |
+| Klik ikon **`+`** di samping file | `git add nama-file` |
+| Klik **`+`** di samping tulisan *Changes* | `git add .` |
+| Tulis pesan di kotak *Message* lalu klik **Commit** | `git commit -m "pesan"` |
+| Klik **Sync Changes** / ikon panah ↑↓ | `git pull` lalu `git push` |
+| Klik nama branch di pojok kiri bawah | `git switch` / `git switch -c` |
+| Ikon **↶ (Discard Changes)** | `git restore nama-file` |
+
+Huruf di samping nama file:
+- **U** (*Untracked*): file baru, belum dilacak.
+- **M** (*Modified*): file diubah.
+- **A** (*Added*): file sudah masuk staging.
+- **D** (*Deleted*): file dihapus.
+- **C** (*Conflict*): ada merge conflict.
+
+> **Rekomendasi Extension:** **GitLens** (melihat siapa yang terakhir mengubah tiap baris) dan **Git Graph** (melihat riwayat branch dalam bentuk grafik).
+
+---
+
+## 12. Membatalkan Perubahan (Undo) — "Mesin Waktu" Git
+
+Ini fitur yang bikin Git benar-benar berguna. Pilih perintah sesuai **di area mana** perubahanmu berada:
+
+### A. Belum di-`add` (masih di Working Directory)
+Kamu mengubah file, lalu menyesal dan ingin mengembalikannya seperti commit terakhir:
+```bash
+git restore index.html
+
+# Kembalikan semua file
+git restore .
+```
+> ⚠️ Perubahan yang di-*restore* **hilang permanen**.
+
+### B. Sudah di-`add`, tapi belum di-`commit`
+Ingin mengeluarkan file dari staging (perubahan filenya **tetap ada**):
+```bash
+git restore --staged index.html
+```
+
+### C. Sudah di-`commit`, tapi belum di-`push`
+```bash
+# Salah tulis pesan commit terakhir / lupa memasukkan satu file
+git add file-yang-lupa.js
+git commit --amend -m "Pesan commit yang sudah diperbaiki"
+
+# Batalkan commit terakhir, tapi perubahan file TETAP ADA (kembali ke staging)
+git reset --soft HEAD~1
+
+# Batalkan commit terakhir DAN buang semua perubahannya (hati-hati!)
+git reset --hard HEAD~1
+```
+> `HEAD~1` artinya "1 commit sebelum posisi sekarang". `HEAD~3` berarti mundur 3 commit.
+
+### D. Sudah di-`push` ke GitHub
+**Jangan pakai `git reset`** untuk commit yang sudah di-push, karena akan merusak riwayat teman setim. Gunakan `git revert`, yang membuat **commit baru** berisi kebalikan dari commit yang salah:
+```bash
+# Lihat dulu ID commit yang ingin dibatalkan
+git log --oneline
+
+# Revert commit tersebut
+git revert a1b2c3d
+git push
+```
+
+### E. Kembali ke Masa Lalu Hanya untuk "Melihat"
+```bash
+# Lompat ke commit lama (mode read-only / "detached HEAD")
+git switch --detach a1b2c3d
+
+# Puas melihat? Kembali lagi ke branch main
+git switch main
+```
+
+### F. Menyimpan Pekerjaan Sementara: `git stash`
+Situasi: kamu sedang setengah jalan mengerjakan fitur, tiba-tiba harus pindah branch untuk memperbaiki bug. Tapi kodenya belum siap di-commit.
+```bash
+# Simpan perubahan sementara ke "laci"
+git stash
+
+# (pindah branch, kerjakan hal lain, lalu kembali)
+
+# Lihat daftar isi laci
+git stash list
+
+# Keluarkan lagi perubahan terakhir dari laci
+git stash pop
+```
+
+---
+
+## 13. Menulis Pesan Commit yang Baik
+
+Pesan commit adalah "buku harian" proyek. Pesan yang buruk bikin timmu (dan dirimu sendiri di masa depan) kebingungan.
+
+❌ **Contoh buruk:**
+```text
+update
+fix
+asdfgh
+revisi lagi
+final banget
+```
+
+✅ **Contoh baik:**
+```text
+Menambahkan form registrasi pengguna
+Memperbaiki bug tombol login tidak bisa diklik di mobile
+Menghapus fungsi yang sudah tidak dipakai di utils.js
+```
+
+### Conventional Commits (Standar Industri)
+Banyak tim memakai format `tipe: deskripsi singkat`:
+
+| Tipe | Kapan Dipakai | Contoh |
+| :--- | :--- | :--- |
+| `feat` | Menambah fitur baru | `feat: tambah halaman keranjang belanja` |
+| `fix` | Memperbaiki bug | `fix: perbaiki total harga yang salah hitung` |
+| `docs` | Perubahan dokumentasi | `docs: update cara instalasi di README` |
+| `style` | Format kode (spasi, titik koma), bukan logika | `style: rapikan indentasi navbar` |
+| `refactor` | Merombak kode tanpa mengubah fungsinya | `refactor: pisahkan komponen Header` |
+| `chore` | Hal teknis lain (update dependency, config) | `chore: update versi react` |
+| `test` | Menambah/memperbaiki test | `test: tambah unit test fungsi login` |
+
+**Tips:**
+- Satu commit = satu perubahan logis. Jangan menumpuk 10 fitur dalam satu commit.
+- Commit **sering** dalam ukuran kecil, lebih baik daripada satu commit raksasa di akhir.
+
+---
+
+## 14. Kolaborasi Tim: Branching, Merging, & Pull Request
+
+Saat bekerja di dalam tim, **jangan pernah mengedit langsung di branch utama (`main` / `master`)**. Jika kodenya error, seluruh tim akan terdampak. Solusinya adalah menggunakan **Branch (Cabang)**.
+
+Bayangkan `main` adalah batang pohon utama yang kodenya selalu stabil. Saat ingin membuat fitur baru, kita membuat "cabang" baru agar kode utama tetap aman.
+
+```text
+main:          A---B-----------F (merge)
+                    \         /
+fitur-login:         C---D---E
+```
+
+### 1. Melihat & Membuat Branch Baru (`git branch` & `git switch`)
+```bash
+# Melihat daftar branch lokal (tanda bintang * menunjukkan posisimu saat ini)
+git branch
+
+# Melihat semua branch termasuk yang ada di GitHub
+git branch -a
+
+# Membuat branch baru sekaligus langsung pindah ke branch tersebut
+git switch -c fitur-keranjang-belanja
+# (Catatan: Di versi Git lama, perintah ini ditulis: git checkout -b fitur-keranjang-belanja)
+
+# Pindah ke branch lain yang sudah ada
+git switch main
+
+# Mengganti nama branch yang sedang aktif
+git branch -m nama-baru
+
+# Menghapus branch lokal yang sudah selesai di-merge
+git branch -d fitur-keranjang-belanja
+
+# Menghapus branch di GitHub
+git push origin --delete fitur-keranjang-belanja
+```
+
+### Konvensi Penamaan Branch
+Biar rapi, gunakan awalan sesuai jenis pekerjaan:
+- `feature/halaman-login` → fitur baru
+- `fix/navbar-mobile` → perbaikan bug
+- `docs/update-readme` → dokumentasi
+- `hotfix/payment-error` → perbaikan darurat di production
+
+### 2. Menggabungkan Branch (`git merge`)
+Jika pekerjaanmu di branch `fitur-keranjang-belanja` sudah selesai dan berhasil dites, kamu bisa menggabungkannya kembali ke branch `main`:
+
+```bash
+# 1. Pindah dulu ke branch tujuan (misalnya main)
+git switch main
+
+# 2. Pastikan main sudah yang terbaru
+git pull origin main
+
+# 3. Gabungkan branch fitur ke dalam main
+git merge fitur-keranjang-belanja
+```
+
+### 3. Apa itu Pull Request (PR)?
+Di dunia kerja nyata dan proyek tim di GitHub, kita jarang melakukan `git merge` langsung di laptop sendiri. Kita menggunakan **Pull Request (PR)**—yaitu permintaan resmi kepada tim agar kode di branch kamu diperiksa (*code review*) sebelum digabungkan (*merge*) ke branch `main`.
+
+### 4. Alur Kerja Tim Lengkap (Step-by-Step)
+
+**Langkah 1 — Update `main` di laptop**
+```bash
+git switch main
+git pull origin main
+```
+
+**Langkah 2 — Buat branch untuk tugasmu**
+```bash
+git switch -c feature/halaman-profil
+```
+
+**Langkah 3 — Kerjakan, lalu commit (boleh berkali-kali)**
+```bash
+git add .
+git commit -m "feat: tambah tampilan halaman profil"
+```
+
+**Langkah 4 — Push branch ke GitHub**
+```bash
+git push -u origin feature/halaman-profil
+```
+
+**Langkah 5 — Buka Pull Request di GitHub**
+1. Buka halaman repo di GitHub. Biasanya akan muncul banner kuning **"Compare & pull request"** → klik.
+   (Atau buka tab **Pull requests → New pull request**.)
+2. Pastikan arahnya benar: **base: `main`** ← **compare: `feature/halaman-profil`**.
+3. Isi **judul** dan **deskripsi**: apa yang diubah, kenapa, dan cara mengetesnya. Sertakan screenshot jika ada perubahan tampilan.
+4. Di panel kanan, pilih **Reviewers** (teman yang akan memeriksa kodemu).
+5. Klik **Create pull request**.
+
+Atau lewat terminal dengan GitHub CLI:
+```bash
+gh pr create --base main --title "Tambah halaman profil" --body "Menambahkan tampilan halaman profil pengguna"
+```
+
+**Langkah 6 — Code Review**
+- Reviewer membuka tab **Files changed**, memberi komentar di baris tertentu, lalu memilih **Approve** atau **Request changes**.
+- Kalau diminta revisi, cukup perbaiki di branch yang sama di laptop, lalu `commit` dan `push` lagi—PR akan **otomatis ter-update**.
+
+**Langkah 7 — Merge PR**
+Setelah di-*approve*, klik **Merge pull request** → **Confirm merge**. Lalu klik **Delete branch** untuk membersihkan branch yang sudah tidak dipakai.
+
+**Langkah 8 — Bersihkan di laptop & mulai tugas berikutnya**
+```bash
+git switch main
+git pull origin main
+git branch -d feature/halaman-profil
+```
+
+> **Tips untuk ketua tim:** Lindungi branch `main` agar tidak ada yang bisa push langsung. Buka **Settings → Branches → Add branch ruleset / protection rule**, lalu aktifkan **Require a pull request before merging**.
+
+### 5. Fork: Berkontribusi ke Repo Orang Lain
+
+Kalau kamu **bukan collaborator** di suatu repo (misalnya proyek open-source), kamu tidak bisa push langsung. Caranya pakai **Fork**:
+
+1. Buka repo yang ingin kamu kontribusi, klik tombol **Fork** di kanan atas. Repo tersebut akan tersalin ke akunmu (`github.com/username-kamu/nama-repo`).
+2. Clone hasil fork-mu:
+   ```bash
+   git clone https://github.com/ErzaProxy/belajar-git.git
+   cd nama-repo
+   ```
+3. Tambahkan repo asli sebagai `upstream` agar kamu bisa mengambil update terbarunya:
+   ```bash
+   git remote add upstream https://github.com/ErzaProxy/belajar-git.git
+   ```
+4. Buat branch, kerjakan, commit, lalu push ke **fork-mu** (`origin`).
+5. Buka GitHub, buat **Pull Request** dari fork-mu ke repo asli.
+6. Untuk menyinkronkan fork dengan repo asli di kemudian hari:
+   ```bash
+   git switch main
+   git fetch upstream
+   git merge upstream/main
+   git push origin main
+   ```
+   (Atau klik tombol **Sync fork** di halaman fork-mu di GitHub.)
+
+| | Clone | Fork |
+| :--- | :--- | :--- |
+| Lokasi salinan | Laptopmu | Akun GitHub-mu |
+| Dilakukan lewat | Terminal (`git clone`) | Tombol di website GitHub |
+| Tujuan | Mengerjakan repo di laptop | Membuat salinan repo orang lain agar bisa kamu ubah & ajukan PR |
+
+---
+
+## 15. Hal Penting Lainnya yang Wajib Diketahui
+
+### A. File `.gitignore` (Mengabaikan File Tertentu)
+Tidak semua file di dalam proyek boleh diunggah ke GitHub! Ada file yang ukurannya terlalu besar (seperti folder `node_modules`) atau berisi rahasia/password penting (seperti file `.env`).
+
+Untuk mencegah Git melacak file-file tersebut, buatlah sebuah file bernama **`.gitignore`** di folder utama proyekmu, lalu tulis nama folder/file yang ingin diabaikan di dalamnya:
+
+```text
+# Contoh isi file .gitignore
+
+# Dependency
+node_modules/
+vendor/
+
+# File rahasia
+.env
+.env.local
+
+# Hasil build
+dist/
+build/
+
+# File sistem / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Semua file dengan ekstensi .log
+*.log
+```
+
+> **Tips:** Tidak perlu menulis dari nol—gunakan template di [github.com/github/gitignore](https://github.com/github/gitignore) atau [gitignore.io](https://www.toptal.com/developers/gitignore).
+
+**Terlanjur meng-commit file yang seharusnya di-ignore?** Menambahkannya ke `.gitignore` saja tidak cukup, karena Git sudah terlanjur melacaknya. Hapus dari pelacakan (file di laptop tetap ada):
+```bash
+git rm -r --cached node_modules
+git commit -m "chore: hapus node_modules dari repo"
+git push
+```
+
+> ⚠️ **Terlanjur push password / API key ke GitHub?** Menghapus file-nya di commit baru **tidak cukup**, karena masih ada di riwayat. **Segera ganti (revoke/rotate) password atau key tersebut** di layanan terkait. Anggap rahasia itu sudah bocor.
+
+### B. File `README.md`
+`README.md` adalah "halaman depan" repo-mu yang otomatis ditampilkan GitHub. Ditulis dengan format **Markdown**. Minimal berisi:
+
+````markdown
+# Nama Proyek
+
+Deskripsi singkat tentang proyek ini.
+
+## Fitur
+- Login & registrasi
+- Keranjang belanja
+
+## Cara Menjalankan
+```bash
+git clone https://github.com/ErzaProxy/belajar-git.git
+cd nama-repo
+npm install
+npm run dev
+```
+
+## Anggota Tim
+- Nama 1 (@username1)
+- Nama 2 (@username2)
+````
+
+> **Bonus:** Buat repo dengan nama **sama persis dengan username-mu** (misal `username-kamu/username-kamu`), lalu isi README-nya. README tersebut akan tampil di halaman profil GitHub-mu—cocok untuk portofolio!
+
+### C. Merge Conflict (Konflik Penggabungan)
+**Apa itu?**
+*Merge Conflict* terjadi ketika dua orang mengubah **file yang sama** dan pada **baris yang sama**, lalu Git bingung harus memilih versi siapa yang benar saat digabungkan.
+
+**Biasanya muncul saat:** `git pull`, `git merge`, atau saat membuat Pull Request (GitHub akan menulis *"This branch has conflicts that must be resolved"*).
+
+**Contoh tampilan saat terjadi Conflict di VS Code:**
+```text
+<<<<<<< HEAD (Perubahan di laptopmu)
+<h1>Selamat Datang di Website Kami!</h1>
+=======
+<h1>Halo, Selamat Datang di Portal Resmi!</h1>
+>>>>>>> fitur-header (Perubahan dari temanmu)
+```
+
+- Bagian antara `<<<<<<< HEAD` dan `=======` → versi **kamu** (*Current Change*).
+- Bagian antara `=======` dan `>>>>>>>` → versi **yang masuk** (*Incoming Change*).
+
+**Cara mengatasinya (Jangan Panik!):**
+1. Jalankan `git status` untuk melihat file mana saja yang konflik (ditandai *both modified*).
+2. Diskusikan dengan temanmu kode mana yang ingin dipakai.
+3. Hapus tanda `<<<<<<<`, `=======`, dan `>>>>>>>`, lalu sisakan kode yang benar. Di VS Code, kamu cukup klik salah satu tombol:
+   - **Accept Current Change** → pakai versimu
+   - **Accept Incoming Change** → pakai versi teman
+   - **Accept Both Changes** → pakai keduanya
+   - Atau klik **Resolve in Merge Editor** untuk tampilan 3 panel yang lebih nyaman.
+4. Setelah rapi, simpan file lalu jalankan:
+   ```bash
+   git add .
+   git commit -m "fix: selesaikan merge conflict di header"
+   git push
+   ```
+
+**Panik dan ingin membatalkan proses merge?**
+```bash
+git merge --abort
+```
+Semua kembali seperti sebelum merge dimulai.
+
+**Cara mencegah conflict:**
+- Sering-sering `git pull` / sinkronkan dengan `main`.
+- Bagi tugas per file/fitur yang jelas antar anggota tim.
+- Buat PR kecil-kecil dan segera di-merge, jangan biarkan branch hidup terlalu lama.
+
+### D. Tag & Release (Penanda Versi)
+Untuk menandai versi aplikasi (misal saat rilis `v1.0.0`):
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+Di GitHub, kamu bisa membuat **Release** dari tag tersebut (tab **Releases → Draft a new release**) lengkap dengan catatan perubahan.
+
+### E. Fitur GitHub Lainnya yang Berguna
+- **Issues:** Tempat mencatat bug, ide fitur, atau to-do list. Kamu bisa menutup issue otomatis lewat PR dengan menulis `Closes #12` di deskripsi PR.
+- **Projects:** Papan Kanban (To Do → In Progress → Done) untuk manajemen tugas tim.
+- **GitHub Pages:** Hosting website statis (HTML/CSS/JS) **gratis**. Aktifkan di **Settings → Pages**, pilih branch `main`, dan website-mu akan online di `username-kamu.github.io/nama-repo`.
+- **GitHub Actions:** Otomatisasi (CI/CD), misalnya menjalankan test atau deploy otomatis setiap ada push.
+- **Codespaces:** VS Code di browser—tekan tombol titik (`.`) di halaman repo mana pun untuk membuka editor web.
+
+---
+
+## 16. Error yang Sering Muncul & Solusinya
+
+| Pesan Error | Penyebab | Solusi |
+| :--- | :--- | :--- |
+| `fatal: not a git repository` | Kamu menjalankan perintah Git di folder yang belum di-`git init` / salah folder. | Cek posisi folder dengan `pwd`, masuk ke folder yang benar dengan `cd`, atau jalankan `git init`. |
+| `Author identity unknown` / `Please tell me who you are` | Belum mengatur nama & email. | Jalankan `git config --global user.name` dan `user.email` (Bagian 5B). |
+| `remote: Support for password authentication was removed` | Kamu memasukkan password akun saat push. | Gunakan salah satu metode autentikasi di **Bagian 7** (VS Code, `gh`, PAT, atau SSH). |
+| `Permission denied (publickey)` | SSH key belum terdaftar di GitHub / belum dibuat. | Ikuti langkah SSH di **Bagian 7E**, lalu tes dengan `ssh -T git@github.com`. |
+| `remote: Permission to ... denied` / `403` | Akun yang login bukan collaborator, atau login dengan akun yang salah. | Minta diundang sebagai collaborator, atau hapus kredensial lama (Bagian 7C) lalu login ulang. |
+| `! [rejected] main -> main (fetch first)` | Ada commit baru di GitHub yang belum ada di laptopmu. | Jalankan `git pull origin main`, selesaikan conflict jika ada, lalu `git push` lagi. |
+| `fatal: refusing to merge unrelated histories` | Repo GitHub sudah berisi README, sedangkan repo lokal dibuat terpisah dengan `git init`. | `git pull origin main --allow-unrelated-histories`, lalu push. |
+| `error: src refspec main does not match any` | Belum ada commit sama sekali, atau nama branch-mu `master` bukan `main`. | Pastikan sudah `git commit`, lalu `git branch -M main` sebelum push. |
+| `fatal: remote origin already exists` | Remote `origin` sudah pernah ditambahkan. | Ganti URL-nya dengan `git remote set-url origin URL-baru`. |
+| `You are in 'detached HEAD' state` | Kamu sedang berada di commit lama, bukan di branch. | Kembali dengan `git switch main`. |
+| `Your local changes would be overwritten by checkout/merge` | Ada perubahan belum di-commit saat ingin pindah branch / pull. | Commit dulu, atau simpan sementara dengan `git stash`, lalu `git stash pop` setelahnya. |
+| `LF will be replaced by CRLF` | Hanya peringatan beda format akhir baris Windows vs Linux/Mac. | Aman diabaikan, atau atur `git config --global core.autocrlf true`. |
+| Terjebak di layar aneh (editor **Vim**) setelah `git commit` / `git merge` | Git membuka editor Vim untuk menulis pesan. | Ketik `:wq` lalu Enter untuk simpan & keluar. (Cegah dengan mengatur `core.editor` ke VS Code, Bagian 5C.) |
+
+---
+
+## Ringkasan Cheat Sheet Git
+
+### Setup
+| Perintah | Fungsi Singkat |
+| :--- | :--- |
+| `git config --global user.name "Nama"` | Mengatur nama |
+| `git config --global user.email "email"` | Mengatur email |
+| `gh auth login` | Login GitHub lewat terminal |
+| `ssh-keygen -t ed25519 -C "email"` | Membuat SSH key |
+
+### Memulai Proyek
+| Perintah | Fungsi Singkat |
+| :--- | :--- |
+| `git init` | Mengaktifkan Git di folder |
+| `git clone URL` | Mengunduh repositori dari GitHub ke laptop |
+| `git remote add origin URL` | Menghubungkan repo lokal ke GitHub |
+| `git remote -v` | Melihat remote yang terhubung |
+| `gh repo create` | Membuat repo GitHub dari terminal |
+
+### Siklus Harian
+| Perintah | Fungsi Singkat |
+| :--- | :--- |
+| `git status` | Mengecek status perubahan file saat ini |
+| `git diff` | Melihat detail baris yang berubah |
+| `git add .` | Memasukkan semua perubahan file ke *Staging Area* |
+| `git commit -m "pesan"` | Menyimpan perubahan ke riwayat lokal (*checkpoint*) |
+| `git push origin nama-branch` | Mengunggah *commit* lokal ke GitHub |
+| `git push -u origin nama-branch` | Push pertama kali + set upstream |
+| `git pull origin nama-branch` | Mengambil pembaruan terbaru dari GitHub ke laptop |
+| `git fetch` | Mengunduh info terbaru tanpa menggabungkan |
+| `git log --oneline` | Melihat riwayat commit |
+
+### Branch
+| Perintah | Fungsi Singkat |
+| :--- | :--- |
+| `git branch` | Melihat daftar branch |
+| `git switch nama-branch` | Pindah ke branch lain |
+| `git switch -c nama-branch` | Membuat dan berpindah ke *branch* baru |
+| `git merge nama-branch` | Menggabungkan *branch* lain ke *branch* saat ini |
+| `git branch -d nama-branch` | Menghapus branch lokal |
+| `git merge --abort` | Membatalkan merge yang conflict |
+
+### Undo
+| Perintah | Fungsi Singkat |
+| :--- | :--- |
+| `git restore nama-file` | Membuang perubahan yang belum di-add |
+| `git restore --staged nama-file` | Mengeluarkan file dari staging |
+| `git commit --amend` | Memperbaiki commit terakhir |
+| `git reset --soft HEAD~1` | Membatalkan commit terakhir (perubahan tetap ada) |
+| `git revert ID-commit` | Membatalkan commit yang sudah di-push dengan aman |
+| `git stash` / `git stash pop` | Menyimpan / mengeluarkan pekerjaan sementara |
+
+---
