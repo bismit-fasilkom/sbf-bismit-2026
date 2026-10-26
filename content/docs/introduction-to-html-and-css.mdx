@@ -1,0 +1,333 @@
+---
+title: HTML dan CSS
+description: Membangun halaman web yang semantik, bergaya, dan responsif.
+---
+
+# HTML dan CSS
+
+
+HTML dan CSS paling baik dipelajari dengan menulis dan memodifikasi kode secara langsung. Baca setiap contoh, perkirakan tampilannya, lalu coba jalankan di browser. Contoh-contoh berikut menggunakan pola HTML dan CSS standar yang serupa dengan tutorial referensi praktis seperti W3Schools.
+
+Setelah menyelesaikan materi ini, kamu diharapkan mampu:
+
+- Membuat dokumen HTML dasar.
+- Menggunakan elemen semantik untuk menyusun konten.
+- Menerapkan selector dan deklarasi CSS.
+- Menjelaskan box model dan menggunakan Flexbox untuk mengatur tata letak.
+- Menambahkan efek hover dan focus serta membuat halaman sederhana yang responsif.
+
+## 1. HTML: Struktur dan Makna
+
+HTML (*HyperText Markup Language*) digunakan untuk mendefinisikan struktur sebuah dokumen. Elemen HTML direpresentasikan menggunakan tag, yang biasanya terdiri dari tag pembuka dan tag penutup.
+
+```html
+<h1>Campus Tech Club</h1>
+<p>Belajar dengan membangun proyek bersama.</p>
+<a href="https://example.com">Pelajari lebih lanjut</a>
+```
+
+Elemen heading, paragraf, dan tautan memiliki makna yang berbeda. Gunakan elemen sesuai dengan fungsinya, bukan hanya berdasarkan tampilan bawaannya.
+
+### Dokumen HTML Lengkap
+
+Buat file bernama `index.html`:
+
+```html
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Tech Club</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Campus Tech Club</h1>
+      <p>Belajar dengan membangun proyek bersama.</p>
+    </header>
+
+    <main>
+      <section>
+        <h2>Workshop Mendatang</h2>
+        <p>Bergabunglah dengan kami untuk mempelajari dasar-dasar pengembangan web.</p>
+        <a class="button" href="#register">Lihat detail pendaftaran</a>
+      </section>
+
+      <section id="register">
+        <h2>Daftarkan Minatmu</h2>
+        <p>Informasi lebih lanjut akan diumumkan segera.</p>
+      </section>
+    </main>
+  </body>
+</html>
+```
+
+### Elemen-Elemen Penting
+
+- `<!doctype html>` memberi tahu browser untuk menggunakan mode parsing HTML modern.
+- `<head>` berisi metadata dokumen dan tautan ke sumber daya eksternal.
+- `<body>` berisi konten halaman.
+- `<header>` memperkenalkan sebuah halaman atau bagian.
+- `<main>` berisi konten utama halaman.
+- `<section>` mengelompokkan konten yang saling berkaitan.
+- `<h1>` hingga `<h6>` merepresentasikan heading dengan tingkat hierarki yang berbeda.
+- `<p>` merepresentasikan paragraf.
+- `<a>` membuat tautan. Atribut `href` menentukan tujuan tautan tersebut.
+
+Elemen lain yang berguna meliputi `<nav>` untuk navigasi, `<footer>` untuk bagian kaki halaman, `<button>` untuk tindakan, `<ul>` dan `<li>` untuk daftar, serta `<form>`, `<label>`, dan `<input>` untuk formulir.
+
+### Atribut
+
+Atribut memberikan informasi tambahan tentang suatu elemen.
+
+```html
+<a href="https://example.com" target="_blank" rel="noreferrer">
+  Buka contoh
+</a>
+
+<img src="poster.jpg" alt="Poster workshop kampus" />
+```
+
+`href`, `src`, `alt`, `id`, dan `class` merupakan contoh atribut. Atribut `alt` menyediakan teks alternatif untuk gambar. Tuliskan deskripsi yang menjelaskan isi atau tujuan gambar tersebut.
+
+**Latihan:** Tambahkan bagian kedua ke `index.html` yang berisi sebuah heading dan daftar tiga topik workshop.
+
+## 2. CSS: Tampilan dan Tata Letak
+
+CSS (*Cascading Style Sheets*) mengatur bagaimana elemen HTML ditampilkan.
+
+Buat file `styles.css`:
+
+```css
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  color: #172033;
+  background: #f4f6fb;
+}
+
+header {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: white;
+  background: #173b70;
+}
+
+main {
+  width: min(900px, 92%);
+  margin: 2rem auto;
+}
+
+section {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 8%);
+}
+
+.button {
+  display: inline-block;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  color: white;
+  background: #175cd3;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #1249a8;
+}
+```
+
+Aturan CSS memiliki tiga komponen utama:
+
+```css
+selector {
+  property: value;
+}
+```
+
+- **Selector:** Menentukan elemen yang akan dikenai aturan, seperti `body`, `.button`, atau `#register`.
+- **Property:** Menentukan aspek yang ingin diubah, seperti `color` atau `padding`.
+- **Value:** Menentukan nilai yang digunakan, seperti `#172033` atau `1.5rem`.
+
+### Selector yang Umum Digunakan
+
+```css
+/* Semua elemen paragraf */
+p {
+  color: #374151;
+}
+
+/* Setiap elemen dengan class="card" */
+.card {
+  padding: 1rem;
+}
+
+/* Elemen dengan id="register" */
+#register {
+  border: 2px solid #175cd3;
+}
+
+/* Tautan di dalam navigasi */
+nav a {
+  text-decoration: none;
+}
+```
+
+Gunakan **class** ketika sebuah gaya dapat diterapkan pada beberapa elemen. Sebuah `id` seharusnya mengidentifikasi satu elemen secara unik dalam dokumen. Hindari penggunaan ID untuk styling jika class yang dapat digunakan kembali lebih sesuai.
+
+## 3. Box Model
+
+Browser mengatur tata letak setiap elemen sebagai sebuah kotak. Box model dasar terdiri dari empat bagian:
+
+- **Content:** Teks, gambar, atau konten lainnya.
+- **Padding:** Ruang antara konten dan border.
+- **Border:** Garis tepi yang mengelilingi padding dan konten.
+- **Margin:** Ruang di luar border.
+
+```css
+.card {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #cbd5e1;
+  margin: 16px;
+  box-sizing: border-box;
+}
+```
+
+Dengan `box-sizing: border-box`, lebar yang ditentukan sudah mencakup konten, padding, dan border. Pengaturan ini sering mempermudah perhitungan tata letak.
+
+## 4. Tata Letak dengan Flexbox
+
+Flexbox berguna untuk mengatur beberapa elemen dalam satu baris atau kolom.
+
+```html
+<div class="topic-list">
+  <article class="topic">HTML</article>
+  <article class="topic">CSS</article>
+  <article class="topic">JavaScript</article>
+</div>
+```
+
+```css
+.topic-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.topic {
+  flex: 1 1 160px;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #e0ecff;
+}
+```
+
+Properti penting:
+
+- `display: flex` mengaktifkan Flexbox pada elemen kontainer.
+- `gap` mengatur jarak antaritem.
+- `justify-content` mengatur posisi item sepanjang sumbu utama (*main axis*).
+- `align-items` mengatur posisi item sepanjang sumbu silang (*cross axis*).
+- `flex-wrap: wrap` memungkinkan item berpindah ke baris berikutnya.
+- `flex-direction: column` menyusun item secara vertikal.
+
+## 5. Desain Responsif
+
+Halaman responsif dapat menyesuaikan tampilannya dengan ukuran viewport. Mulailah dengan dimensi yang fleksibel dan tambahkan *media query* hanya ketika tata letak membutuhkan perubahan.
+
+```css
+main {
+  width: min(900px, 92%);
+  margin-inline: auto;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 2rem 1rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  .topic-list {
+    flex-direction: column;
+  }
+}
+```
+
+Uji halaman dengan mengubah ukuran jendela browser atau menggunakan *device toolbar* pada developer tools. Perhatikan apakah terdapat scroll horizontal, teks yang terlalu kecil, atau tombol yang sulit ditekan.
+
+## 6. Interaktivitas dengan CSS
+
+CSS dapat merespons keadaan interaksi pengguna tanpa JavaScript.
+
+```css
+.button:hover {
+  filter: brightness(0.9);
+}
+
+.button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+```
+
+- `:hover` diterapkan ketika perangkat penunjuk, seperti mouse, berada di atas suatu elemen.
+- `:focus-visible` menampilkan indikator fokus yang terlihat untuk navigasi keyboard dalam kondisi yang sesuai.
+- `:active` dapat mengatur tampilan elemen ketika elemen tersebut sedang diaktifkan.
+
+Jangan menyampaikan informasi penting hanya melalui warna. Pastikan kontras teks tetap terbaca dan indikator fokus terlihat jelas.
+
+### Contoh Interaktif Sederhana
+
+Tambahkan kode berikut ke dalam bagian `<body>` HTML:
+
+```html
+<button class="theme-button" type="button">Sorot Halaman</button>
+```
+
+Tambahkan CSS berikut:
+
+```css
+.theme-button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  color: white;
+  background: #334155;
+  cursor: pointer;
+}
+
+.theme-button:hover {
+  background: #0f172a;
+}
+```
+
+Tombol tersebut terlihat interaktif, tetapi mengekliknya tidak akan mengubah tema halaman. CSS menangani tampilan dan keadaan visual, sedangkan JavaScript akan menangani perilaku pada bagian pembelajaran berikutnya.
+
+## 7. Kesalahan Umum Pemula
+
+- Menghubungkan nama file stylesheet yang salah atau menggunakan path yang tidak sesuai.
+- Lupa menutup tag atau menyusun elemen secara tidak benar.
+- Menggunakan `<br>` berulang kali untuk mengatur jarak, alih-alih menggunakan CSS.
+- Menerapkan gaya pada `#card` ketika HTML menggunakan `class="card"`.
+- Memberikan lebar tetap dalam satuan piksel pada semua elemen sehingga halaman meluap pada layar yang lebih kecil.
+- Menghapus outline fokus tanpa menyediakan alternatif.
+- Menggunakan `<div>` untuk setiap elemen, alih-alih memanfaatkan HTML semantik yang sesuai.
+
+## Checklist Latihan
+
+- [ ] Ubah judul halaman dan heading utama.
+- [ ] Tambahkan gambar dengan teks alternatif yang informatif.
+- [ ] Tambahkan daftar yang berisi minimal tiga topik.
+- [ ] Ubah warna latar belakang dan teks.
+- [ ] Atur salah satu bagian agar tampil seperti kartu.
+- [ ] Tambahkan efek hover dan indikator fokus keyboard.
+- [ ] Ubah ukuran jendela browser dan periksa apakah terdapat scroll horizontal.
