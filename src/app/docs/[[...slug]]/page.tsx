@@ -7,13 +7,20 @@ import {
   MarkdownCopyButton,
 } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { getPageImageUrl, getPageMarkdownUrl} from '@/lib/shared';
+import { getPageImageUrl, getPageMarkdownUrl } from '@/lib/shared';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
+  if (!params.slug?.length) {
+    const firstPage = source.getPageTree().children.find((node) => node.type === 'page');
+    if (firstPage?.type === 'page' && firstPage.url) redirect(firstPage.url);
+    notFound();
+  }
+
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
@@ -30,7 +37,6 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
         />
@@ -45,7 +51,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
   const params = await props.params;
-  const page = source.getPage(params.slug);
+  const page = params.slug?.length ? source.getPage(params.slug) : source.getPages()[0];
   if (!page) notFound();
 
   return {
