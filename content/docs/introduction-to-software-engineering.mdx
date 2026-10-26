@@ -1,6 +1,166 @@
 ---
 title: Introduction to Software Engineering
-description: Deskripsi dong
+description: SoftEng itu apa
 ---
 
-Info
+# Introduction to Software Engineering & AI Usage
+
+Software Engineering bukan sekadar menulis kode. Kita perlu memahami masalah, merancang solusi, menguji hasil, dan memelihara software agar tetap berguna.
+
+Di sisi lain, AI dapat membantu mempercepat proses tersebut. Namun, kita tetap perlu memahami dan memverifikasi hasil yang dihasilkan AI.
+
+Materi ini memperkenalkan dasar Software Engineering dan cara menggunakan AI sebagai alat bantu dalam proses pengembangan software.
+
+## 1. What Is Software Engineering?
+
+**Software Engineering** adalah pendekatan sistematis untuk merancang, membangun, menguji, merilis, dan memelihara perangkat lunak.
+
+Software tidak hanya terdiri dari kode. Software juga mencakup kebutuhan pengguna, desain, data, dokumentasi, pengujian, dan pemeliharaan.
+
+### Programming vs. Software Engineering
+
+| Programming | Software Engineering |
+|---|---|
+| Berfokus pada penulisan kode. | Berfokus pada keseluruhan proses pengembangan software. |
+| Mengimplementasikan solusi. | Memastikan solusi sesuai kebutuhan dan dapat dipelihara. |
+| Dapat dilakukan untuk tugas kecil secara individual. | Mempertimbangkan kualitas, pengujian, keamanan, dan kerja tim. |
+
+**Analogi:** Programming seperti menyusun batu bata. Software Engineering mencakup memahami kebutuhan penghuni, merancang bangunan, membangunnya, memeriksa keamanannya, dan merawatnya.
+
+### Characteristics of Good Software
+
+Software yang berkualitas umumnya memiliki karakteristik berikut:
+
+- **Correctness:** memberikan hasil sesuai kebutuhan.
+- **Reliability:** bekerja secara konsisten.
+- **Usability:** mudah dipahami dan digunakan.
+- **Maintainability:** mudah diperbaiki dan dikembangkan.
+- **Security:** melindungi data dan akses.
+- **Efficiency:** menggunakan sumber daya secara wajar.
+
+<Callout type="warn" title="Ingat!">
+  Software yang berhasil dijalankan belum tentu merupakan software yang baik. Software juga perlu diuji, diamankan, dan dirancang agar mudah dipelihara.
+</Callout>
+
+## 2. The Software Development Life Cycle
+
+**Software Development Life Cycle (SDLC)** merupakan kerangka untuk memahami tahapan pengembangan software.
+
+### Tahapan utama
+
+1. **Requirements — Memahami kebutuhan**
+
+   Mengidentifikasi pengguna, masalah yang ingin diselesaikan, dan fitur yang diperlukan.
+
+2. **Design — Merancang solusi**
+
+   Menentukan alur penggunaan, tampilan, struktur data, dan komponen sistem.
+
+3. **Implementation — Membangun software**
+
+   Mengubah rancangan menjadi kode yang dapat dijalankan.
+
+4. **Testing — Menguji software**
+
+   Memeriksa apakah fitur berjalan dengan benar dan menangani kondisi yang tidak biasa.
+
+5. **Deployment — Merilis software**
+
+   Menyediakan software agar dapat digunakan oleh pengguna.
+
+6. **Maintenance — Memelihara software**
+
+   Memperbaiki bug, meningkatkan keamanan, dan mengembangkan fitur.
+
+Tahapan tersebut tidak selalu berjalan satu arah. Dalam pendekatan iteratif seperti Agile, tim dapat mengulang proses berdasarkan hasil pengujian dan umpan balik pengguna.
+
+### Example: Food Inventory Application
+
+Bayangkan kita ingin membuat aplikasi untuk mencatat stok makanan.
+
+| Tahap | Contoh |
+|---|---|
+| Requirements | Pengguna ingin mencatat bahan makanan dan tanggal kedaluwarsa. |
+| Design | Merancang daftar stok, formulir input, dan penanda kedaluwarsa. |
+| Implementation | Membuat halaman dan mekanisme penyimpanan data. |
+| Testing | Memastikan stok tersimpan dan tanggal kedaluwarsa ditampilkan dengan benar. |
+| Deployment | Menyediakan aplikasi untuk digunakan. |
+| Maintenance | Memperbaiki bug dan meningkatkan pengalaman pengguna. |
+
+## 3. AI in Software Engineering
+
+AI generatif dapat membantu manusia dalam berbagai aktivitas pengembangan software, mulai dari memahami kebutuhan hingga membuat dokumentasi.
+
+### How Can We Use AI?
+
+| Aktivitas | Bantuan AI | Tanggung jawab manusia |
+|---|---|---|
+| Requirements | Merangkum kebutuhan dan menyusun pertanyaan. | Memastikan kebutuhan pengguna benar. |
+| Design | Mengusulkan alternatif desain. | Memilih solusi yang sesuai. |
+| Implementation | Menghasilkan contoh kode dan menjelaskan sintaks. | Memeriksa integrasi dan kualitas kode. |
+| Testing | Mengusulkan skenario pengujian. | Menjalankan dan mengevaluasi pengujian. |
+| Debugging | Menjelaskan kemungkinan penyebab error. | Memverifikasi penyebab sebenarnya. |
+| Documentation | Membuat draf dokumentasi. | Memastikan informasi akurat. |
+
+### AI as an Assistant, Not a Replacement
+
+AI dapat menghasilkan jawaban yang terdengar meyakinkan, tetapi belum tentu benar. Kode yang dihasilkan mungkin tidak sesuai dengan struktur proyek, mengandung bug, atau memiliki celah keamanan.
+
+Karena itu, gunakan AI untuk:
+
+- Memahami konsep yang belum dikuasai.
+- Mengeksplorasi beberapa alternatif solusi.
+- Mempercepat pekerjaan yang berulang.
+- Mendapatkan penjelasan dan umpan balik.
+- Membantu menyusun pengujian dan dokumentasi.
+
+Jangan langsung menerima semua hasil AI tanpa pemeriksaan.
+
+## 4. Writing Effective Prompts
+
+**Prompt** adalah instruksi atau konteks yang diberikan kepada AI untuk memperoleh hasil tertentu.
+
+Prompt yang spesifik membantu AI memahami tujuan, konteks, dan batasan pekerjaan.
+
+### A Simple Prompt Framework
+
+Prompt yang baik dapat memuat empat komponen:
+
+1. **Context:** proyek atau situasi yang sedang dikerjakan.
+2. **Goal:** hasil yang ingin dicapai.
+3. **Constraints:** batasan yang harus dipatuhi.
+4. **Output format:** bentuk hasil yang diharapkan.
+
+### Example: Improving an Inventory UI
+
+<Callout type="error" title="Vague prompt">
+  Buatkan aplikasi stok makanan yang bagus.
+</Callout>
+
+Prompt tersebut terlalu luas. AI belum mengetahui bagian yang perlu diperbaiki, teknologi yang digunakan, atau perubahan yang diperbolehkan.
+
+<Callout type="success" title="Better prompt">
+  Saya sedang membuat halaman daftar stok makanan menggunakan HTML, CSS, dan JavaScript. Rapikan tampilannya agar setiap item menampilkan nama bahan, jumlah, lokasi, dan status kedaluwarsa. Pada layar mobile, tampilkan setiap item sebagai kartu. Pertahankan ID elemen dan mekanisme form yang sudah ada. Jangan mengubah backend. Berikan kode lengkap yang bisa saya salin dan jelaskan perubahan yang dilakukan.
+</Callout>
+
+Prompt kedua memberikan konteks, tujuan, batasan, dan format hasil yang lebih jelas.
+
+<Callout type="info" title="Prompting tip">
+  Prompt tidak harus panjang. Yang penting, AI memahami apa yang sedang kamu kerjakan, hasil yang kamu inginkan, dan batasan yang tidak boleh dilanggar.
+</Callout>
+
+## 5. Responsible AI Usage
+
+Penggunaan AI juga memiliki risiko yang perlu dipahami.
+
+### Common Risks
+
+- **Accuracy:** AI dapat menghasilkan informasi atau kode yang salah.
+- **Security:** kode yang dihasilkan mungkin memiliki kerentanan.
+- **Privacy:** informasi sensitif dapat terekspos jika dibagikan tanpa perlindungan yang sesuai.
+- **Bias:** hasil AI dapat mengandung asumsi atau bias.
+- **Over-reliance:** ketergantungan berlebihan dapat menghambat pemahaman dan kemampuan pemecahan masalah.
+
+<Callout type="warn" title="Protect sensitive information">
+  Jangan memasukkan password, API key, data pribadi, atau kode rahasia ke layanan AI tanpa izin dan perlindungan yang sesuai.
+</Callout>
