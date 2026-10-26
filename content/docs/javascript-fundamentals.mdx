@@ -1,0 +1,220 @@
+---
+title: JavaScript Fundamental
+---
+
+## Bagian A: Bridging Sintaksis (Python vs JS ES6+)
+
+Berikut adalah perbandingan sintaksis utama antara Python dan JavaScript modern (ES6+):
+
+### 1. Deklarasi Variabel & Scoping (`const` & `let` vs Variabel Dinamis)
+
+* **Python**: Variabel dibuat langsung tanpa kata kunci dan dapat di-reassign kapan saja.
+* **JavaScript**: Menggunakan `const` untuk nilai yang tidak akan di-reassign (default), dan `let` jika nilainya perlu diubah. JavaScript menerapkan block scope `{}`.
+
+<Tabs items={['Python', 'JavaScript']}>
+  <Tab value="Python">
+```python
+# Deklarasi variabel
+nama = "Budi"
+nama = "Joko"       # Boleh di-reassign
+
+PI = 3.14           # Hanya konvensi, tetap bisa diubah nilainya!
+PI = 3.99
+
+# Scope
+if True:
+    pesan = "Halo!"
+print(pesan)        # Berhasil (tidak ada block scope)
+```
+  </Tab>
+  <Tab value="JavaScript">
+```javascript
+// Gunakan const sebagai default
+const pi = 3.14159;
+// pi = 3.99;       // ❌ TypeError: Assignment to constant variable
+
+// Gunakan let jika nilainya perlu di-reassign
+let nama = "Budi";
+nama = "Joko";      // ✅ Berhasil
+
+// Block scope {}
+if (true) {
+  const pesan = "Halo!";
+}
+// console.log(pesan); // ❌ ReferenceError: pesan is not defined
+```
+  </Tab>
+</Tabs>
+
+### 2. String Interpolation (Template Literals vs f-strings)
+
+* **Python**: Menggunakan f-string dengan awalan `f"..."`.
+* **JavaScript**: Menggunakan **Template Literals** dengan tanda backtick (`` ` ``) dan ekspresi `${...}`.
+
+<Tabs items={['Python', 'JavaScript']}>
+  <Tab value="Python">
+```python
+nama = "Budi"
+role = "Frontend Engineer"
+
+# f-string
+kalimat = f"Halo, saya {nama} sebagai {role}."
+print(kalimat)
+
+# Ekspresi di dalam f-string
+hitung = f"Hasil: {5 + 7}"
+```
+  </Tab>
+  <Tab value="JavaScript">
+```javascript
+const nama = "Budi";
+const role = "Frontend Engineer";
+
+// Template literals (menggunakan backtick ``)
+const kalimat = `Halo, saya ${nama} sebagai ${role}.`;
+console.log(kalimat);
+
+// Ekspresi di dalam ${...}
+const hitung = `Hasil: ${5 + 7}`;
+```
+  </Tab>
+</Tabs>
+
+### 3. Fungsi & Arrow Function (`(param) => ekspresi` vs `def` / `lambda`)
+
+* **Python**: Menggunakan `def` untuk fungsi reguler atau `lambda` untuk fungsi anonim satu baris.
+* **JavaScript**: Mendukung fungsi reguler `function` dan **Arrow Function** `(param) => ekspresi` dengan *implicit return*.
+
+<Tabs items={['Python', 'JavaScript']}>
+  <Tab value="Python">
+```python
+# Regular function
+def tambah(a, b):
+    return a + b
+
+# Lambda (1 baris)
+kali = lambda a, b: a * b
+
+print(tambah(5, 7))  # Output: 12
+print(kali(5, 7))    # Output: 35
+```
+  </Tab>
+  <Tab value="JavaScript">
+```javascript
+// Regular function
+function tambah(a, b) {
+  return a + b;
+}
+
+// Arrow Function (implicit return untuk satu ekspresi)
+const kali = (a, b) => a * b;
+
+console.log(tambah(5, 7)); // Output: 12
+console.log(kali(5, 7));   // Output: 35
+```
+  </Tab>
+</Tabs>
+
+---
+
+## Bagian B: Interaksi DOM & Penanganan Event
+
+JavaScript di browser berinteraksi langsung dengan **DOM (Document Object Model)** untuk memanipulasi elemen visual dan menangani interaksi pengguna.
+
+### Konsep Kunci:
+1. `document.querySelector`: Menghubungkan elemen HTML ke JavaScript berdasarkan selektor CSS.
+2. `addEventListener('click', handler)`: Mendengarkan event interaksi pengguna.
+3. `textContent`: Memperbarui isi teks elemen secara aman.
+4. `classList`: Menambah, menghapus, atau melakukan toggle kelas CSS secara dinamis.
+
+### Contoh Kode Raw JavaScript:
+
+```javascript
+// 1. Seleksi Elemen
+const counterEl = document.querySelector('#counter-value');
+const statusBadgeEl = document.querySelector('#status-badge');
+const incBtn = document.querySelector('#increment-btn');
+const toggleBtn = document.querySelector('#theme-toggle-btn');
+const cardEl = document.querySelector('#dom-card');
+
+let count = 0;
+
+// 2. Event Listener & Update Teks
+incBtn.addEventListener('click', () => {
+  count++;
+  counterEl.textContent = count;
+
+  // 3. Update CSS Class Dinamis
+  if (count % 2 === 0) {
+    statusBadgeEl.textContent = 'Positif (Genap)';
+  } else {
+    statusBadgeEl.textContent = 'Positif (Ganjil)';
+  }
+});
+
+// 4. Toggle Class Highlight
+toggleBtn.addEventListener('click', () => {
+  cardEl.classList.toggle('highlight');
+});
+```
+
+### Demo Interaktif DOM:
+
+<JsDomDemo />
+
+---
+
+## Bagian C: Asynchronous Execution & Fetch API
+
+Di browser, request jaringan dijalankan secara non-blocking (asinkron) menggunakan `fetch` dan `async/await` agar antarmuka web tidak membeku saat menunggu data dari server.
+
+* **Endpoint REST API**: `https://jokes-bapack2-api.yuana.id/v1/text/random`
+* **Elemen Interaktif**:
+  * Wadah teks: `id="joke-display"`
+  * Tombol pemicu fetch: `id="fetch-btn"`
+
+### Logika Alur:
+1. **State awal**: Menampilkan teks placeholder.
+2. **Saat tombol diklik**: Tampilkan status loading ("Mengambil data dari server...") dan nonaktifkan tombol (`disabled = true`) untuk mencegah klik ganda (spam).
+3. **Request jaringan**: Menggunakan `await fetch(...)` dan `await response.json()`.
+4. **Sukses**: Render nilai `result.data`.
+5. **Error & Finally**: Tangani kegagalan via blok `catch` dan pulihkan tombol via blok `finally`.
+
+### Contoh Kode Raw JavaScript:
+
+```javascript
+const jokeDisplayEl = document.querySelector('#joke-display');
+const fetchBtn = document.querySelector('#fetch-btn');
+
+async function ambilJoke() {
+  // 1. Loading & Kunci Tombol
+  fetchBtn.disabled = true;
+  jokeDisplayEl.textContent = 'Mengambil data dari server...';
+
+  try {
+    // 2. Request Jaringan & Parse JSON
+    const response = await fetch('https://jokes-bapack2-api.yuana.id/v1/text/random');
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    // 3. Tampilkan Data
+    jokeDisplayEl.textContent = result.data;
+  } catch (error) {
+    // 4. Tangani Error
+    jokeDisplayEl.textContent = 'Terjadi kesalahan saat memuat data.';
+    console.error(error);
+  } finally {
+    // 5. Pulihkan Tombol
+    fetchBtn.disabled = false;
+  }
+}
+
+fetchBtn.addEventListener('click', ambilJoke);
+```
+
+### Demo Interaktif Fetch:
+
+<JsFetchDemo />
