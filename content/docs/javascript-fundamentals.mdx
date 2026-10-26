@@ -2,6 +2,28 @@
 title: JavaScript Fundamental
 ---
 
+## JavaScript
+
+JavaScript adalah bahasa pemrograman tingkat tinggi (*high-level*), dinamis, dan multi-paradigma yang menjadi fondasi utama dalam membangun interaktivitas pada web modern. Awalnya diciptakan untuk berjalan di dalam browser (melalui *engine* seperti V8 di Chromium atau SpiderMonkey di Firefox), JavaScript kini telah bertransformasi menjadi bahasa serbaguna yang dapat dieksekusi di lingkungan server maupun desktop melalui runtime modern seperti Node.js, Deno, dan Bun.
+
+### Kaitannya dengan Software Engineering
+
+Dalam disiplin *software engineering* (rekayasa perangkat lunak), JavaScript memainkan peran krusial dalam arsitektur sistem modern:
+
+1. **Lapisan Presentasi & Interaksi Pengguna (Frontend Engineering)**:
+   JavaScript menjembatani pengguna akhir dengan logika bisnis sistem. Di era web modern, frontend bukan sekadar dokumen HTML statis, melainkan aplikasi klien utuh (*Single Page Applications* atau *Server-Driven UI*) yang mengelola *state* dinamis, validasi data, *caching*, dan rendering responsif.
+
+2. **Konsistensi Bahasa di Seluruh Arsitektur (Full-Stack & Isomorphic)**:
+   Dengan adanya runtime server-side, tim rekayasa perangkat lunak dapat menggunakan satu ekosistem bahasa dari lapisan database/API hingga visual antarmuka. Hal ini memungkinkan berbagi kode validasi (*shared validation logic*), kontrak tipe data, dan perancangan *full-stack framework* modern seperti Next.js.
+
+3. **Model Konkurensi Event-Driven & Non-Blocking I/O**:
+   JavaScript mengeksekusi kode menggunakan *single-threaded event loop*. Pendekatan ini memungkinkan penanganan ribuan koneksi jaringan dan operasi I/O (seperti pemanggilan REST API dan database) secara asinkron tanpa *overhead* pembuatan thread sistem operasi yang berat.
+
+4. **Standarisasi dan Pemeliharaan Sistem Skala Besar**:
+   Melalui standarisasi formal ECMAScript (ES6+) serta adopsi superset seperti TypeScript, JavaScript mendukung prinsip-prinsip rekayasa perangkat lunak yang matang: modularitas (*ES Modules*), enkapsulasi komponen, pengetikan statis yang aman (*type safety*), dan kemudahan pengujian otomatis (*unit & integration testing*).
+
+---
+
 ## Bagian A: Bridging Sintaksis (Python vs JS ES6+)
 
 Berikut adalah perbandingan sintaksis utama antara Python dan JavaScript modern (ES6+):
