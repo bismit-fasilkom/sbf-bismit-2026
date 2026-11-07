@@ -1,0 +1,199 @@
+---
+title: "Introduction to Frameworks"
+description: "Ini Deskripsi"
+---
+
+## Bagian 1: Introduction to Frameworks & Libraries
+
+Saat baru belajar membuat website, kita biasanya memulai dengan tiga fondasi utama (sering disebut **Native / Vanilla Web**):
+1. **HTML** untuk kerangka dan struktur konten.
+2. **CSS** untuk tampilan dan dekorasi visual.
+3. **JavaScript** untuk interaktivitas dan logika.
+
+Namun, seiring bertambahnya skala website (misalnya dari sekadar halaman profil menjadi aplikasi seperti Tokopedia, Netflix, atau Gojek), menulis semuanya dari nol dengan HTML, CSS, dan JS murni akan memakan waktu sangat lama dan rentan menghasilkan kode yang berantakan (*spaghetti code*). Di sinilah **Library** dan **Framework** hadir sebagai penyelamat.
+
+### Apa Bedanya Library dan Framework?
+
+Banyak pemula menganggap keduanya sama, padahal ada perbedaan mendasar pada **siapa yang memegang kendali (*Inversion of Control*)**.
+
+> **Analogi Sederhana: Membangun Rumah**
+> * **Library (Perpustakaan Alat):** Ibarat kamu pergi ke toko furnitur seperti IKEA untuk membeli kursi, meja, atau lampu guna mengisi rumah yang **kamu bangun dan atur sendiri**. Kamu bebas menentukan kapan dan di mana ingin menaruh barang tersebut.
+> * **Framework (Kerangka Kerja):** Ibarat kamu membeli **paket rumah siap bangun** dari *developer* perumahan. Fondasi, jalur pipa, struktur tembok, dan atap sudah ditentukan aturannya oleh mereka. Kamu tinggal mengisi bagian-bagian ruangan sesuai panduan yang sudah disediakan.
+
+| Aspek | Library | Framework |
+| :--- | :--- | :--- |
+| **Definisi** | Kumpulan fungsi/fitur spesifik yang siap pakai untuk menyelesaikan satu tugas tertentu. | Kerangka kerja utuh yang mengatur struktur, alur, dan arsitektur aplikasi dari awal hingga akhir. |
+| **Kendali Alur (*Control*)** | **Kamu** yang memanggil *library* kapan pun kamu membutuhkannya di dalam kodemu. | **Framework** yang mengatur aturan mainnya dan memanggil kodemu pada tempat yang sudah ditentukan. |
+| **Fleksibilitas** | Sangat fleksibel, mudah diganti atau dipasang sebagian saja. | Memiliki aturan baku (*opinionated*), mengharuskan kita mengikuti struktur foldernya. |
+| **Contoh Populer** | **React.js** (UI), Axios (Fetch data), Lodash, Chart.js. | **Next.js**, **Tailwind CSS**, Angular, Laravel, Express.js. |
+
+---
+
+### Pembagian Peran di Dunia Web: Front-End, Back-End, & Full-Stack
+
+Dalam pengembangan aplikasi web, ekosistem dibagi menjadi tiga area utama:
+
+#### 1. Front-End (Sisi Klien / Tampilan)
+Bagian dari website yang **dapat dilihat dan disentuh langsung oleh pengguna** melalui layar browser. Fokus utamanya adalah tampilan visual (UI), kenyamanan pengguna (UX), dan interaktivitas.
+* **Framework / Library UI (JavaScript/TypeScript):**
+  * **React.js** *(Library UI yang menjadi fondasi dari Next.js)*
+  * **Vue.js**
+  * **Angular**
+  * **Svelte**
+* **Framework Styling (CSS):**
+  * **Tailwind CSS** *(Framework CSS berbasis utility yang akan kita gunakan!)*
+  * **Bootstrap**
+
+#### 2. Back-End (Sisi Server / Dapur Aplikasi)
+Bagian di balik layar yang **tidak terlihat oleh pengguna**. Tugasnya mengelola *database*, keamanan, autentikasi (login/register), serta logika bisnis aplikasi.
+* **Contoh Framework Back-End:**
+  * **Express.js / NestJS** (Berbasis Node.js / TypeScript)
+  * **Laravel** (Berbasis PHP)
+  * **Django / FastAPI** (Berbasis Python)
+  * **Spring Boot** (Berbasis Java)
+  * **Gin / Fiber** (Berbasis Go)
+
+#### 3. Full-Stack (Gabungan Front-End + Back-End)
+Area yang mencakup **keduanya sekaligus**—mulai dari merancang antarmuka yang tampil di browser hingga mengelola pengolahan data dan API di sisi server dalam satu kesatuan proyek.
+* **Contoh Framework Full-Stack:**
+  * **Next.js (TypeScript)** *(Fokus utama kelas kita!)*
+  * **Nuxt.js** (Berbasis Vue)
+  * **Remix**
+  * **SvelteKit**
+
+<Callout type="info">
+  **Kenapa Kita Belajar Next.js (TypeScript) + Tailwind CSS?**
+  * **Next.js** adalah *Full-Stack React Framework* paling populer di industri saat ini. Dengan Next.js, kita tidak hanya membuat tampilan *Front-End* yang interaktif menggunakan komponen React, tetapi juga bisa membuat jalur *Back-End* (API), mengatur *routing* halaman secara otomatis, dan mengoptimalkan kecepatan website.
+  * **TypeScript** menjaga kode kita agar lebih aman dari *error* dengan memberikan aturan tipe data yang jelas.
+  * **Tailwind CSS** memungkinkan kita mendesain tampilan langsung di dalam komponen dengan sangat cepat tanpa perlu bolak-balik berpindah file `.css`.
+</Callout>
+
+---
+
+## Bagian 2: Mengapa Harus Framework? (Memahami *Atomic Design*)
+
+Mungkin kamu bertanya: *"Kalau cuma bikin halaman Login atau halaman web biasa, kenapa nggak pakai HTML, CSS, dan JS native aja? Kan lebih simpel?"*
+
+### Masalah pada HTML, CSS, dan JS Native
+Bayangkan kamu membuat aplikasi web yang memiliki **50 halaman**, dan di setiap halaman terdapat **tombol berwarna hijau** dan **kolom input form**.
+1. Jika menggunakan **HTML & CSS Native**, kamu harus menyalin (*copy-paste*) struktur HTML tombol tersebut ke 50 file HTML yang berbeda.
+2. Suatu hari, desainer meminta perubahan: *"Tolong ubah bentuk tombol hijau itu jadi agak melengkung dan tambahkan ikon di sebelahnya."*
+3. Akibatnya, kamu harus membuka **50 file HTML satu per satu** untuk mengubahnya! Jika ada satu saja yang terlewat, tampilan website menjadi tidak konsisten.
+
+### Solusinya: Arsitektur Berbasis Komponen & *Atomic Design*
+Framework modern seperti **Next.js** bekerja dengan konsep **Component-Based Architecture** (Arsitektur Berbasis Komponen). Artinya, kita memecah tampilan website menjadi potongan-potongan kecil yang **dapat digunakan kembali (*reusable*)**. 
+
+Untuk menyusun komponen-komponen ini dengan rapi, industri menggunakan metodologi yang disebut **Atomic Design** (diciptakan oleh Brad Frost). Sama seperti benda di alam semesta yang tersusun dari atom, tampilan aplikasi kita juga dibangun dari bagian terkecil hingga menjadi satu halaman utuh.
+
+![Atomic Design](/atomic_design.avif)
+Mari kita bedah **5 Tahapan Atomic Design** berdasarkan ilustrasi komponen halaman **Login** yang kita miliki:
+
+#### 1. Atoms (Atom)
+Atom adalah **elemen terkecil dari antarmuka (UI)** yang tidak bisa dipecah lagi menjadi bagian yang lebih kecil tanpa kehilangan fungsinya.
+* **Contoh:**
+  * Sebuah teks label bertuliskan `Input labels`.
+  * Sebuah kotak input kosong (*text field*) tempat pengguna mengetik.
+  * Sebuah tombol (*button*) berwarna hijau bertuliskan `Login`.
+* Pada tahap ini, masing-masing elemen masih berdiri sendiri-sendiri. Kotak input belum tahu apakah dia akan dipakai untuk mengisi Email, Nama, atau Nomor Telepon.
+
+#### 2. Molecules (Molekul)
+Molekul adalah **gabungan dari beberapa Atom** yang disatukan untuk menjalankan satu fungsi sederhana yang spesifik.
+* **Contoh:**
+  * Atom teks label (`Email`) digabungkan dengan Atom kotak input (yang kini diberi teks petunjuk/placeholder `example@email.com`).
+* Sekarang, gabungan kedua atom tersebut memiliki identitas dan fungsi yang jelas: menjadi **satu kesatuan kolom input Email**.
+
+#### 3. Organisms (Organisme)
+Organisme adalah **gabungan dari beberapa Molekul dan/atau Atom** yang membentuk satu bagian (*section*) antarmuka yang utuh dan mandiri.
+* **Contoh:**
+  * Kita menggabungkan **Molekul Input Email** (`example@email.com`), **Molekul Input Password** (label `Password` + kotak input berisi titik-titik rahasia `••••••`), serta **Atom Tombol** `Login` berwarna hijau di bagian bawahnya.
+* Ketiganya membentuk sebuah **Organisme Form Login** yang sudah siap berinteraksi dengan pengguna.
+
+#### 4. Templates (Templat / Kerangka)
+Template adalah **kerangka tata letak (*layout*)** yang menggabungkan berbagai organisme dan komponen ke dalam sebuah struktur halaman, namun **masih berupa pola/kerangka umum** (belum berisi data atau konteks spesifik halaman akhir).
+* **Contoh:**
+  * Terlihat sebuah bingkai kartu berjudul `Form` yang di dalamnya tersusun rapi posisi untuk dua buah kolom input (`Input labels` + `text`) serta satu buah tombol (`Button`) di bagian bawah.
+* Template ini memberi tahu kita: *"Nanti, semua halaman formulir di aplikasi kita—baik itu form Login, form Register, maupun form Ubah Profil—akan memiliki susunan kerangka dan jarak (spacing) seperti kotak ini."*
+
+#### 5. Pages (Halaman Utuh)
+Pages adalah **tahap akhir** di mana *Template* yang tadinya masih berupa kerangka kini diisi dengan **konten nyata** dan ditampilkan secara utuh di layar browser atau perangkat pengguna.
+* **Contoh:**
+  * Sebuah layar aplikasi/browser utuh yang menampilkan halaman **Login** sesungguhnya. Judul `Form` pada template kini berubah menjadi `Login`, kolom input pertama menjadi input `Email` (`example@email.com`), kolom input kedua menjadi `Password` (`••••••`), dan tombol di bawah menjadi tombol `Login`.
+
+<Callout type="success">
+  **Apa Hubungan Atomic Design dengan Frameworks (contoh pada kasus ini Next.js & Tailwind CSS)?**
+  * Di **Next.js**, kita cukup membuat **Atom Tombol Hijau** dan **Molekul Input** sebanyak **satu kali saja**. Jika kita membutuhkannya di 50 halaman berbeda, kita tinggal memanggil komponen tersebut. Kalau ada revisi warna atau bentuk, cukup ubah di **satu tempat**, maka seluruh 50 halaman otomatis ikut berubah!
+  * Di **Tailwind CSS**, kita bisa mendesain warna hijau tombol, lengkungan garis (*border-radius*) pada kotak input, hingga jarak antar-organisme langsung di dalam masing-masing komponen tanpa takut gaya CSS satu komponen merusak tampilan komponen lainnya.
+</Callout>
+
+---
+
+## Bagian 3: Mengenal Node.js dan NPM
+
+Untuk menjalankan *framework* modern seperti **Next.js** dan **Tailwind CSS** di komputer kita, kita tidak bisa lagi sekadar mengklik dua kali file `index.html`. Kita membutuhkan mesin penggerak di komputer kita yang bernama **Node.js** dan **NPM**.
+
+### 1. Apa itu Node.js?
+Dahulu kala, bahasa pemrograman **JavaScript** hanya bisa hidup dan berjalan di dalam *web browser* (seperti Google Chrome, Safari, atau Firefox). JavaScript tidak bisa dijalankan langsung di sistem operasi komputer kita untuk mengelola file atau menjalankan server.
+
+**Node.js** hadir sebagai **JavaScript Runtime Environment**—yaitu sebuah "mesin" (dibangun di atas mesin V8 milik Google Chrome) yang memungkinkan kita **menjalankan kode JavaScript di luar browser**, langsung di dalam komputer atau server kita!
+
+> **Mengapa kita butuh Node.js untuk Next.js?**
+> Next.js membutuhkan server lokal untuk memproses kode TypeScript kita, menggabungkan komponen-komponen *Atomic Design* yang kita buat, serta memproses Tailwind CSS menjadi kode yang dimengerti oleh browser. Semua proses dapur tersebut dijalankan oleh **Node.js**.
+
+### 2. Apa itu NPM (Node Package Manager)?
+Saat kamu menginstal Node.js, kamu akan otomatis mendapatkan alat bernama **NPM**.
+
+Jika diibaratkan dengan smartphone:
+* **Node.js** adalah sistem operasi HP kamu (Android / iOS).
+* **NPM** adalah **Google Play Store / App Store**-nya!
+
+**NPM (Node Package Manager)** adalah pengelola paket (*package manager*) terbesar di dunia untuk JavaScript. Ketika kita ingin menggunakan **Next.js**, **React**, atau **Tailwind CSS**, kita tidak perlu lagi membuka website mereka satu-satu untuk mengunduh file `.zip`-nya secara manual. Kita cukup mengetik satu baris perintah di terminal melalui NPM, dan NPM akan mengunduh serta memasangkan semuanya ke dalam proyek kita secara otomatis.
+
+---
+
+### Panduan Instalasi Node.js & NPM
+
+Ikuti langkah-langkah berikut untuk memasang Node.js dan NPM di komputermu:
+
+#### Langkah 1: Unduh Installer Node.js
+1. Buka browser dan kunjungi situs resmi Node.js di: **[https://nodejs.org](https://nodejs.org)**
+2. Kamu akan melihat pilihan unduhan. **Pastikan kamu memilih versi LTS (*Long Term Support*)**.
+   * *Kenapa harus versi LTS?* Versi LTS adalah versi yang paling stabil, sudah teruji, dan paling direkomendasikan untuk pengembangan proyek maupun kebutuhan industri.
+
+#### Langkah 2: Proses Instalasi
+* **Untuk Pengguna Windows & macOS:**
+  1. Buka file *installer* yang sudah diunduh (`.msi` untuk Windows atau `.pkg` untuk macOS).
+  2. Ikuti panduan di layar dengan menekan tombol **Next** / **Continue**, setujui lisensi penggunaan, lalu klik **Install**.
+  3. Biarkan pengaturan lokasi folder tetap pada pengaturan bawaan (*default*) agar NPM langsung terhubung ke sistem komputer.
+* **Untuk Pengguna Linux (Ubuntu/Debian):**
+  Kamu dapat menginstalnya melalui Terminal atau menggunakan *Node Version Manager (nvm)* agar lebih mudah mengelola versi Node.js.
+
+#### Langkah 3: Verifikasi Instalasi di Terminal
+Setelah proses instalasi selesai, kita perlu memastikan apakah Node.js dan NPM sudah benar-benar terpasang dengan baik.
+
+1. Buka aplikasi **Terminal** (di macOS/Linux) atau **Command Prompt / PowerShell** (di Windows).
+2. Ketik perintah berikut untuk mengecek versi **Node.js**, lalu tekan `Enter`:
+
+```bash
+node -v
+```
+
+Jika berhasil, terminal akan menampilkan nomor versi Node.js kamu (contoh: `v22.x.x` atau `v20.x.x`).
+
+3. Selanjutnya, ketik perintah berikut untuk mengecek versi **NPM**, lalu tekan `Enter`:
+
+```bash
+npm -v
+```
+
+Jika berhasil, terminal akan memunculkan nomor versi NPM (contoh: `10.x.x`).
+
+---
+
+## Ringkasan Materi
+
+1. **Library vs Framework:** *Library* adalah alat bantu yang kita panggil sesuai kebutuhan (contoh: React), sedangkan *Framework* adalah kerangka kerja lengkap yang mengatur struktur dan alur aplikasi kita (contoh: **Next.js** dan **Tailwind CSS**).
+2. **Front-End, Back-End, & Full-Stack:** *Front-End* mengurus tampilan pengguna, *Back-End* mengurus server dan data di balik layar, sedangkan *Full-Stack* (seperti **Next.js**) mampu menangani keduanya sekaligus.
+3. **Atomic Design:** Alasan utama kita beralih dari HTML/CSS/JS native ke Framework adalah agar kita bisa membangun antarmuka berbasis komponen yang *reusable* (dapat dipakai berulang kali), mulai dari **Atoms** $\rightarrow$ **Molecules** $\rightarrow$ **Organisms** $\rightarrow$ **Templates** $\rightarrow$ **Pages**.
+4. **Node.js & NPM:** **Node.js** adalah mesin agar JavaScript bisa berjalan di komputer/server kita, sedangkan **NPM** adalah toko aplikasi untuk mengunduh *framework* dan *library* ke dalam proyek kita.
+
+Selamat! Sekarang *environment* dan pemahaman dasarmu sudah siap. Di sesi berikutnya, kita akan langsung membuat proyek **Next.js (TypeScript) + Tailwind CSS** pertama kita menggunakan NPM!
