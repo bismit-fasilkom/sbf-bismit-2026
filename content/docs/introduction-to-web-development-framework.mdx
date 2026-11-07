@@ -1,0 +1,195 @@
+---
+title: Introduction to Web Development Framework
+description: Pengenalan konsep framework web modern, React vs Vanilla JS, setup Next.js dengan TypeScript & Tailwind CSS, serta sistem App Router dengan fokus Front-End.
+---
+
+## 1. Apa itu Web Development Framework?
+
+Bayangkan kamu ingin membangun sebuah rumah:
+* **Cara Tradisional (Tanpa Framework):** Kamu harus mencampur semen sendiri, memotong kayu dari pohon mentah, dan merakit pipa air dari nol. Ini butuh waktu lama dan rawan terjadi kebocoran jika kamu belum ahli.
+* **Menggunakan Framework:** Kamu mendapatkan paket modular lengkap — ada fondasi kokoh, denah standar, dinding prefab, serta pintu dan jendela yang sudah diuji kekuatannya. Kamu cukup fokus menata dan merakit rumah impianmu dengan cepat dan aman.
+
+**Web Development Framework** adalah kerangka kerja berisi kumpulan kode, alat bantu, dan aturan standar yang sudah disiapkan oleh komunitas pengembang global agar kamu tidak perlu memulai semuanya dari nol.
+
+### Mengapa Developer Menggunakan Framework?
+1. **Kecepatan Pengembangan:** Menghemat waktu karena fitur-fitur umum tidak perlu ditulis ulang.
+2. **Kerapian & Standar Struktur:** Siapa pun di dalam tim dapat memahami struktur proyek karena mengikuti standar industri yang sama.
+3. **Keamanan & Performa:** Fitur optimasi gambar, pencegahan serangan umum, dan pemuatan halaman kilat sudah tertanam secara bawaan (*built-in*).
+
+> **💡 Konteks Front-End vs Server (Back-End):**  
+> Di dunia web, ada bagian **Back-End / Server** (seperti dapur restoran yang menyimpan resep rahasia dan gudang database) dan bagian **Front-End** (seperti meja makan yang menyajikan hidangan lezat dan pelayan ramah yang melayani tamu).  
+> Framework yang akan kita gunakan, yaitu **Next.js**, sebenarnya sangat kuat dan mampu menangani keduanya (*full-stack*). Namun pada materi ini, **fokus utama kita adalah Front-End** — yaitu bagaimana membuat antarmuka yang menarik, responsif, dan interaktif di layar browser pengguna.
+
+---
+
+## 2. Perbandingan Nyata: Vanilla JS vs Framework (React/Next.js)
+
+Mari kita bandingkan cara membuat fitur sederhana: **"Tombol Counter yang Menambah Angka Saat Diklik"**.
+
+<Tabs items={['Vanilla JavaScript (Tradisional)', 'Framework (React di Next.js)']}>
+  <Tab value="Vanilla JavaScript (Tradisional)">
+Pendekatan **imperatif** — kamu harus mencari elemen HTML satu per satu di memori DOM dan memperbarui teks secara manual:
+
+```html
+<!-- index.html -->
+<div class="counter-box">
+  <p>Nilai Hitungan: <span id="counter-display">0</span></p>
+  <button id="btn-tambah">Tambah Angka</button>
+</div>
+
+<script>
+  let count = 0;
+  // 1. Cari elemen HTML satu per satu di memori DOM
+  const displayEl = document.querySelector('#counter-display');
+  const buttonEl = document.querySelector('#btn-tambah');
+
+  // 2. Pasang pendengar klik secara manual
+  buttonEl.addEventListener('click', () => {
+    count++;
+    // 3. Perbarui teks secara manual (jika lupa baris ini, UI tidak berubah!)
+    displayEl.textContent = count;
+  });
+</script>
+```
+  </Tab>
+  <Tab value="Framework (React di Next.js)">
+Pendekatan **deklaratif** — kamu cukup mendefinisikan memori data bernama **State** (`useState`). Begitu nilainya berubah, tampilan UI otomatis tersinkronisasi:
+
+```tsx
+// Counter.tsx
+'use client';
+
+import { useState } from 'react';
+
+export default function Counter() {
+  // 1. Buat state (daya ingat komponen)
+  const [count, setCount] = useState<number>(0);
+
+  return (
+    <div className="p-4 rounded-xl border bg-slate-800 text-white">
+      {/* 2. UI otomatis terhubung dengan nilai count */}
+      <p>Nilai Hitungan: <span className="font-bold">{count}</span></p>
+      
+      {/* 3. Cukup panggil fungsi setCount saat tombol diklik */}
+      <button 
+        onClick={() => setCount(count + 1)}
+        className="mt-2 px-4 py-2 bg-teal-500 rounded-lg hover:bg-teal-400 font-semibold text-slate-950"
+      >
+        Tambah Angka
+      </button>
+    </div>
+  );
+}
+```
+  </Tab>
+</Tabs>
+
+### Tabel Perbandingan:
+
+| Kriteria | Vanilla JavaScript (Tradisional) | Framework Modern (React + Next.js) |
+| :--- | :--- | :--- |
+| **Gaya Penulisan** | **Imperatif**: Memberi instruksi perubahan elemen baris demi baris. | **Deklaratif**: Tentukan tampilan berdasarkan *state*, browser disinkronkan otomatis. |
+| **Pembaruan Data** | Rentan bug jika lupa memperbarui teks elemen secara manual. | Otomatis dan reaktif secara real-time. |
+| **Reusabilitas (LEGO)** | Sulit digandakan tanpa menyalin seluruh struktur HTML & JS. | Komponen `<Counter />` bisa dipanggil berulang kali di mana saja dengan state mandiri. |
+| **Skalabilitas** | Sulit dirawat ketika aplikasi bertambah kompleks. | Sangat rapi karena terbagi menjadi unit-unit komponen modular. |
+
+---
+
+## 3. Ekstensi VS Code Populer untuk Kemudahan Koding 🛠️
+
+Sebelum mulai mengoding, sangat disarankan memasang ekstensi Visual Studio Code berikut:
+
+1. **Tailwind CSS IntelliSense** (*Tailwind Labs*)
+   * Memberikan saran pelengkapan otomatis (*auto-complete*) saat mengetik kelas CSS, menampilkan preview warna, serta tooltip CSS murni.
+2. **ES7+ React/Redux/React-Native snippets** (*dsznayder*)
+   * Membuat kerangka komponen React dalam hitungan detik. Cukup ketik `rfce` atau `tsrfc` lalu tekan `Tab`.
+3. **Prettier - Code Formatter** (*Prettier*)
+   * Merapikan format kode dan indentasi secara otomatis saat menekan simpan (`Ctrl + S`).
+4. **Auto Rename Tag** (*Jun Han*)
+   * Saat tag pembuka HTML/JSX diubah (misalnya `<div>` menjadi `<section>`), tag penutupnya otomatis ikut berganti.
+5. **Path Intellisense** (*Christian Kohler*)
+   * Membantu melengkapi nama file dan folder otomatis saat melakukan impor modul atau rute navigasi.
+
+---
+
+## 4. Pondasi Teknologi: Next.js, TypeScript, & Tailwind CSS
+
+Dalam pembelajaran ini, kita mengombinasikan tiga pilar utama:
+* **React.js**: Library pengatur tampilan antarmuka (komponen) dan logika interaktivitas.
+* **Next.js**: Framework berbasis React yang menyediakan sistem rute otomatis (*routing*), struktur folder rapi, dan performa optimal.
+* **TypeScript**: Superset dari JavaScript yang bertindak sebagai "asisten pemeriksa ejaan otomatis" guna mencegah error pengetikan sebelum kode dijalankan.
+* **Tailwind CSS**: Desain antarmuka modern dengan kelas utilitas langsung di dalam kode HTML/TSX (seperti `bg-teal-500`, `text-center`, `rounded-xl`).
+
+---
+
+## 5. Konsep Routing di Next.js (App Router)
+
+Next.js mengadopsi sistem **File-System Based Routing**. Setiap folder di dalam direktori `src/app/` otomatis menjadi rute URL web:
+
+* `src/app/page.tsx` ➔ Alamat: `/` (Halaman Beranda)
+* `src/app/about/page.tsx` ➔ Alamat: `/about`
+* `src/app/whack-a-mole/page.tsx` ➔ Alamat: `/whack-a-mole`
+
+### Navigasi Instan dengan Komponen `<Link />`
+Gunakan komponen `<Link />` dari Next.js untuk berpindah halaman secepat kilat di sisi klien tanpa *reload* layar:
+
+```tsx
+import Link from 'next/link';
+
+export default function Navigasi() {
+  return (
+    <nav className="flex gap-4 p-4 bg-slate-800 text-white">
+      <Link href="/" className="hover:text-teal-400">
+        Beranda
+      </Link>
+      <Link href="/whack-a-mole" className="hover:text-teal-400">
+        Main Whack-a-Mole
+      </Link>
+    </nav>
+  );
+}
+```
+
+---
+
+## 6. Setup Proyek Next.js Baru
+
+### Langkah 1: Pengecekan Node.js
+Pastikan Node.js (versi LTS) dan npm sudah terpasang di komputermu:
+
+```bash
+node -v
+npm -v
+```
+
+### Langkah 2: Buat Proyek
+Jalankan perintah berikut di terminal:
+
+```bash
+npx create-next-app@latest sbf-web-framework
+```
+
+Pilih opsi berikut saat diminta:
+* Project name: `sbf-web-framework`
+* TypeScript: **Yes**
+* ESLint: **Yes**
+* Tailwind CSS: **Yes**
+* `src/` directory: **Yes**
+* App Router: **Yes**
+* Turbopack: **Yes**
+* Customize alias: **No**
+
+### Langkah 3: Jalankan Server Lokal
+```bash
+cd sbf-web-framework
+npm run dev
+```
+Buka browser di `http://localhost:3000`.
+
+---
+
+## 7. Langkah Selanjutnya: Praktik Hands-on 🎮
+
+Setelah memahami konsep framework, komponen, state, dan routing, saatnya mempraktikkannya langsung dengan membangun game interaktif **Whack-a-Mole (Pukul Tikus Tanah)** di modul latihan:
+
+👉 **[Buka Hands-on: Game Whack-a-Mole](/hands-on/whack-a-mole)**

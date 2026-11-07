@@ -1,0 +1,354 @@
+---
+title: Hands-on Game Whack-a-Mole
+description: Praktik membuat game interaktif Whack-a-Mole mulai dari instalasi proyek Next.js dengan npm, konfigurasi Tailwind CSS, hingga implementasi Client Component dan Hooks.
+---
+
+## Gambaran Praktik
+
+Pada latihan ini, kita akan membangun game interaktif **Whack-a-Mole (Pukul Tikus Tanah)** dari nol mulai dari pembuatan proyek Next.js baru dengan npm hingga halaman game berjalan di rute `/whack-a-mole`.
+
+### Apa Saja Yang Akan Dipelajari:
+1. **Setup Proyek Next.js**: Menginisialisasi proyek modern menggunakan `create-next-app` dengan npm.
+2. `'use client'`: Menandai komponen agar dieksekusi di browser karena membutuhkan interaktivitas pengguna.
+3. `useState`: Menyimpan status permainan (skor, sisa waktu, posisi tikus, status bermain/selesai, dan rekor skor).
+4. `useEffect`: Mengelola timer hitung mundur (30 detik) dan interval kemunculan tikus acak di lubang setiap 750 milidetik.
+5. **Conditional Rendering & Styling**: Menampilkan visual tikus 🦔, efek pukulan 💥, serta layar Game Over dengan Tailwind CSS.
+
+---
+
+## Langkah 1: Instalasi & Setup Proyek Next.js dengan npm 🚀
+
+Sebelum mulai menulis kode game, kita akan membuat proyek baru menggunakan alat resmi dari Next.js.
+
+### 1. Periksa Node.js & npm
+Buka terminal (Command Prompt, PowerShell, atau Terminal VS Code), lalu pastikan Node.js dan npm sudah terpasang:
+
+```bash
+node -v
+npm -v
+```
+
+> Pastikan Node.js versi LTS (v18 ke atas) sudah terpasang. Jika belum, unduh terlebih dahulu di [https://nodejs.org](https://nodejs.org).
+
+### 2. Inisialisasi Proyek Baru
+Arahkan terminal ke folder tempat kamu ingin menyimpan proyek, lalu jalankan perintah:
+
+```bash
+npx create-next-app@latest game-whack-a-mole
+```
+
+Terminal akan menanyakan beberapa opsi setup. Pilih konfigurasi standar berikut (tekan **Enter** pada setiap pertanyaan):
+
+| Pertanyaan Setup | Pilihan yang Disarankan | Penjelasan |
+| :--- | :--- | :--- |
+| **What is your project named?** | `game-whack-a-mole` | Nama folder proyek |
+| **Would you like to use TypeScript?** | **Yes** | Mencegah bug dengan pengetikan tipe data |
+| **Would you like to use ESLint?** | **Yes** | Menjaga kerapian dan standar penulisan kode |
+| **Would you like to use Tailwind CSS?** | **Yes** | Styling cepat dan modern dengan utility classes |
+| **Would you like your code inside a `src/` directory?** | **Yes** | Menata source code agar terpisah dari file config |
+| **Would you like to use App Router?** | **Yes** | Sistem rute modern bawaan Next.js |
+| **Would you like to use Turbopack for `next dev`?** | **Yes** | Compiler lokal berkecepatan tinggi |
+| **Would you like to customize the import alias?** | **No** | Menggunakan alias bawaan `@/*` |
+
+Tunggu hingga npm selesai mengunduh seluruh dependensi yang dibutuhkan.
+
+### 3. Masuk ke Folder & Jalankan Server Lokal
+Setelah instalasi selesai, masuk ke dalam folder proyek dan jalankan server pengembangan:
+
+```bash
+cd game-whack-a-mole
+npm run dev
+```
+
+Buka browser kamu dan akses: **`http://localhost:3000`**. Jika muncul halaman bawaan Next.js, artinya setup proyek kamu sudah 100% berhasil!
+
+---
+
+## Langkah 2: Ubah Tampilan Beranda (`src/app/page.tsx`) 🎨
+
+Buka folder proyek `game-whack-a-mole` di VS Code. Kita akan mengubah halaman utama menjadi halaman sambutan arcade dengan tombol navigasi menuju arena game.
+
+Buka file **`src/app/page.tsx`**, hapus seluruh kode bawaannya, lalu ganti dengan kode berikut:
+
+```tsx
+import Link from 'next/link';
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white flex flex-col items-center justify-center p-6 text-center">
+      <div className="max-w-2xl bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-md shadow-2xl">
+        <span className="inline-block px-3.5 py-1 rounded-full text-xs font-semibold bg-teal-500/20 text-teal-300 border border-teal-500/30 tracking-wider uppercase mb-4">
+          Next.js + TypeScript + Tailwind CSS
+        </span>
+
+        <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+          Introduction to Web Development Framework 🚀
+        </h1>
+
+        <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-8 max-w-lg mx-auto">
+          Selamat datang di dunia front-end modern! Pelajari bagaimana komponen, state reaktif, 
+          dan routing bekerja bersama dengan membangun permainan interaktif.
+        </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/whack-a-mole"
+            className="px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-teal-500/25 active:scale-95"
+          >
+            🎮 Mulai Main Whack-a-Mole
+          </Link>
+          
+          <a
+            href="https://nextjs.org/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm border border-white/20 transition-all active:scale-95"
+          >
+            Dokumentasi Next.js ↗
+          </a>
+        </div>
+      </div>
+
+      <footer className="mt-8 text-xs text-slate-500">
+        Internal Class Software Engineering &copy; 2026
+      </footer>
+    </main>
+  );
+}
+```
+
+Simpan file (`Ctrl + S`), lalu cek browser di `http://localhost:3000`.
+
+---
+
+## Langkah 3: Buat Halaman Game (`src/app/whack-a-mole/page.tsx`) 🦔🔨
+
+Sekarang kita buat arena permainan Whack-a-Mole:
+
+1. Di dalam folder `src/app/`, buat folder baru bernama **`whack-a-mole`**.
+2. Di dalam folder `whack-a-mole`, buat file bernama **`page.tsx`**  
+   *(Lokasi lengkap: `src/app/whack-a-mole/page.tsx`)*.
+3. Salin seluruh kode lengkap di bawah ini ke dalam file `page.tsx`:
+
+```tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+export default function WhackAMolePage() {
+  // =========================================================================
+  // 1. STATE PERMAINAN (Daya Ingat Komponen Front-End)
+  // =========================================================================
+  const [score, setScore] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [activeMole, setActiveMole] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [highScore, setHighScore] = useState<number>(0);
+  const [whackedMole, setWhackedMole] = useState<number | null>(null);
+
+  // =========================================================================
+  // 2. GAME LOOP (Timer Permainan & Kemunculan Tikus Acak)
+  // =========================================================================
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    // Timer hitung mundur: berkurang 1 setiap 1000ms (1 detik)
+    const timerInterval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setIsPlaying(false);
+          setIsGameOver(true);
+          setActiveMole(null);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // Kemunculan tikus: berpindah ke lubang acak setiap 750ms
+    const moleInterval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * 9); // Grid 3x3 (angka 0 - 8)
+      setActiveMole(randomIndex);
+      setWhackedMole(null);
+    }, 750);
+
+    // Bersihkan interval jika permainan berhenti atau komponen ditutup
+    return () => {
+      clearInterval(timerInterval);
+      clearInterval(moleInterval);
+    };
+  }, [isPlaying]);
+
+  // Perbarui rekor skor tertinggi jika permainan selesai
+  useEffect(() => {
+    if (isGameOver && score > highScore) {
+      setHighScore(score);
+    }
+  }, [isGameOver, score, highScore]);
+
+  // =========================================================================
+  // 3. EVENT HANDLER (Aksi Pengguna)
+  // =========================================================================
+  const startGame = () => {
+    setScore(0);
+    setTimeLeft(30);
+    setIsPlaying(true);
+    setIsGameOver(false);
+    setActiveMole(null);
+    setWhackedMole(null);
+  };
+
+  const handleWhack = (index: number) => {
+    // Abaikan klik jika game belum mulai, atau lubang bukan tempat tikus
+    if (!isPlaying || index !== activeMole) return;
+
+    // Tambah nilai skor +10
+    setScore((prev) => prev + 10);
+    
+    // Tampilkan efek visual pukulan dan sembunyikan tikus seketika
+    setWhackedMole(index);
+    setActiveMole(null);
+  };
+
+  // =========================================================================
+  // 4. TAMPILAN ANTARMUKA (JSX & Tailwind CSS)
+  // =========================================================================
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white flex flex-col items-center justify-center p-4 select-none">
+      <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md shadow-2xl">
+        
+        {/* Tombol Kembali ke Beranda (Routing dengan <Link />) */}
+        <div className="flex items-center justify-between mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+          >
+            ← Kembali ke Home
+          </Link>
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">
+            Next.js App Router
+          </span>
+        </div>
+
+        {/* Judul Permainan */}
+        <h1 className="text-2xl md:text-3xl font-black text-center tracking-tight mb-5 bg-gradient-to-r from-teal-400 to-indigo-400 bg-clip-text text-transparent">
+          Whack-a-Mole 🦔
+        </h1>
+
+        {/* Panel Informasi Skor, Waktu, & Rekor */}
+        <div className="grid grid-cols-3 gap-2.5 mb-6 text-center">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
+            <p className="text-[11px] text-slate-400">🎯 Skor</p>
+            <p className="text-2xl font-black font-mono text-teal-400 mt-0.5">{score}</p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
+            <p className="text-[11px] text-slate-400">⏱️ Waktu</p>
+            <p
+              className={`text-2xl font-black font-mono mt-0.5 ${
+                timeLeft <= 5 && isPlaying ? 'text-rose-400 animate-pulse' : 'text-amber-400'
+              }`}
+            >
+              {timeLeft}s
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
+            <p className="text-[11px] text-slate-400">🏆 Rekor</p>
+            <p className="text-2xl font-black font-mono text-yellow-400 mt-0.5">{highScore}</p>
+          </div>
+        </div>
+
+        {/* Grid 3x3 Arena Lubang Tikus */}
+        <div className="grid grid-cols-3 gap-3 bg-slate-900/80 p-3.5 rounded-2xl border border-white/10 shadow-inner">
+          {Array.from({ length: 9 }).map((_, index) => {
+            const isMoleHere = activeMole === index;
+            const wasJustWhacked = whackedMole === index;
+
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleWhack(index)}
+                disabled={!isPlaying}
+                className="aspect-square rounded-xl bg-slate-800 hover:bg-slate-750 active:scale-95 border border-white/10 relative overflow-hidden transition-all flex items-center justify-center disabled:cursor-not-allowed"
+                aria-label={`Lubang ke-${index + 1}`}
+              >
+                {/* Efek visual bayangan lubang tanah */}
+                <div className="absolute inset-x-2 bottom-1.5 h-3 rounded-full bg-slate-950/80" />
+
+                {/* Karakter Tikus Tanah */}
+                {isMoleHere && (
+                  <span className="text-4xl select-none animate-bounce drop-shadow-lg cursor-pointer">
+                    🦔
+                  </span>
+                )}
+
+                {/* Efek Bintang Pukulan Saat Berhasil Dipukul */}
+                {wasJustWhacked && (
+                  <span className="text-3xl select-none animate-ping">
+                    💥
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tombol Aksi Mulai / Status Game Over */}
+        <div className="mt-6 text-center">
+          {!isPlaying && !isGameOver && (
+            <button
+              type="button"
+              onClick={startGame}
+              className="w-full py-3.5 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm tracking-wide transition-all shadow-lg shadow-teal-500/25 active:scale-95"
+            >
+              ▶️ Mulai Permainan (30 Detik)
+            </button>
+          )}
+
+          {isPlaying && (
+            <p className="text-xs text-slate-400 font-medium animate-pulse">
+              Pukul tikus 🦔 secepat mungkin sebelum ia kembali bersembunyi!
+            </p>
+          )}
+
+          {isGameOver && (
+            <div className="space-y-3">
+              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs">
+                🎉 <strong>Permainan Selesai!</strong> Skor akhirmu: <span className="font-bold text-white text-sm">{score} poin</span>.
+              </div>
+              <button
+                type="button"
+                onClick={startGame}
+                className="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all shadow-lg shadow-indigo-600/25 active:scale-95"
+              >
+                🔄 Main Lagi
+              </button>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </main>
+  );
+}
+```
+
+---
+
+## Langkah 4: Uji Coba di Browser
+
+1. Pastikan server lokal berjalan (`npm run dev`).
+2. Buka `http://localhost:3000` dan klik tombol **"🎮 Mulai Main Whack-a-Mole"** (atau langsung akses `http://localhost:3000/whack-a-mole`).
+3. Tekan **"Mulai Permainan"** dan uji coba memukul tikus yang muncul secara acak!
+
+---
+
+## Tantangan Mandiri (Opsional) 🌟
+
+1. **Variasi Kecepatan:** Percepat interval kemunculan tikus jika skor sudah melampaui 50 poin.
+2. **Kemunculan Bom (Pengurang Skor):** Buat sesekali muncul karakter bom 💣. Jika terpukul, kurangi skor -20 poin.
+3. **Penyimpanan Rekor (`localStorage`):** Simpan `highScore` di penyimpanan lokal browser agar tidak hilang saat di-refresh.
